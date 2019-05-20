@@ -55,22 +55,27 @@ class UpdateCommand extends Command
                 $settings['updated'] = time();
                 $this->storage->putYAML($st_event, $settings);
 
-                $ical = new iCal($url);
-                $this->info('Updating ' . $ical->title);
+                $this->info('Updating ' . $settings['title']);
                 $i = 0;
 
-                // Add items to the chosen collection
-                $events = $ical->eventsByDate();
+                if ($enabled == true) {
 
-                foreach ($events as $date => $items) {
-                    if ($enabled == true) {
+                    $ical = new iCal($url);
+                    $events = $ical->eventsByDate();
+
+                    foreach ($events as $date => $items) {
+
                         foreach ($items as $item) {
 
-                            $event_title = str_limit($item->title, 200);
+                            if (array_key_exists('title', $item)) {
+                                $event_title = str_limit($item->title, 200);
+                            } else {
+                                $event_title = str_limit($item->summary, 200);
+                            }
 
                             $with = [];
                             $with['collection'] = $settings['publish_to'];
-                            $with['entry'][Str::removeLeft($settings['pw_title'], '@ical:')] = $event_title; // Add the title
+                            $with['entry']['title'] = $event_title; // Add the title
                             $with['create'] = true;
 
                             // Item description
@@ -83,12 +88,8 @@ class UpdateCommand extends Command
 
                             // Recurrence
                             if ($item->recurrence) {
+                                $with['entry']['pw_recurring'] = $item->recurrence;
                             }
-
-                            // Recurrence
-                            // if ($item->uid) {
-                                // $with['entry']['event_uid'] = $item->uid;
-                            // }
 
                             // Location
                             $with['entry'][Str::removeLeft($settings['pw_location'], '@ical:')] = $this->checkKey($settings, $item, 'location', 'location');
@@ -112,8 +113,6 @@ class UpdateCommand extends Command
                             // $with = $this->runBeforeCreateEvent(array($with));
 
                             if ($with['create'] == true) {
-
-                                $this->info(var_dump($with['entry']['title']));
 
                                 // Create an entry
                                 if (Entry::slugExists(slugify($with['entry']['title']), $with['collection'])) {
