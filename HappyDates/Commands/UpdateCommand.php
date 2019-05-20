@@ -67,6 +67,8 @@ class UpdateCommand extends Command
 
                         foreach ($items as $item) {
 
+                            $this->info(\var_dump($item));
+
                             if (array_key_exists('title', $item)) {
                                 $event_title = str_limit($item->title, 200);
                             } else {
