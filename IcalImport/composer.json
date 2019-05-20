@@ -1,6 +1,0 @@
-{
-    "name": "wout-mager/icalimport",
-    "require": {
-        "simshaun/recurr": "^3.1"
-    }
-}

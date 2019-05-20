@@ -1,0 +1,6 @@
+{
+    "name": "wout-mager/happydates",
+    "require": {
+        "simshaun/recurr": "^3.1"
+    }
+}
