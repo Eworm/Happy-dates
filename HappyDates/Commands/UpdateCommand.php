@@ -66,13 +66,7 @@ class UpdateCommand extends Command
                     if ($enabled == true) {
                         foreach ($items as $item) {
 
-                            if (array_key_exists('title', $item)) {
-                                $event_title = $item->title;
-                            } elseif (array_key_exists('summary', $item)) {
-                                $event_title = $item->summary;
-                            } else {
-                                $event_title = $item->description;
-                            }
+                            $event_title = str_limit($item->title, 200);
 
                             $with = [];
                             $with['collection'] = $settings['publish_to'];
@@ -119,7 +113,7 @@ class UpdateCommand extends Command
 
                             if ($with['create'] == true) {
 
-                                $this->info(var_dump($with));
+                                $this->info(var_dump($with['entry']['title']));
 
                                 // Create an entry
                                 if (Entry::slugExists(slugify($with['entry']['title']), $with['collection'])) {

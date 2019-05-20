@@ -31,10 +31,6 @@ sections:
         max_items: 1
         width: 50
         validate: required
-      pw_title:
-        type: happydates.source
-        field:
-          type: text
       pw_description:
         type: happydates.source
         disableable: true

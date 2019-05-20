@@ -2,8 +2,7 @@ enabled: true
 scheduling: 60
 status: publish
 publish_to: blog
-pw_title: '@ical:title'
-pw_description: '@ical:pw_content'
+pw_description: '@ical:pw_description'
 pw_location: '@ical:pw_location'
 pw_start_date: '@ical:pw_start_date'
 pw_end_date: '@ical:pw_end_date'
