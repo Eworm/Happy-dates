@@ -3,7 +3,6 @@
 namespace Statamic\Addons\HappyDates\Controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Statamic\Addons\HappyDates\iCal;
 use Statamic\Console\Please;
 use Statamic\API\Path;
 use Statamic\API\File;
@@ -28,15 +27,15 @@ class HappyDatesController extends Controller
      */
     public function index()
     {
-        $events_storage  = Storage::files('/site/storage/addons/HappyDates');
-        $events          = [];
+        $icals_storage  = Storage::files('/site/storage/addons/HappyDates');
+        $icals          = [];
 
-        if (!$events_storage) {
+        if (!$icals_storage) {
             return redirect()->route('addons.happydates.create');
         }
 
-        foreach ($events_storage as $event) {
-            $rem    = str_replace('site/storage/addons/HappyDates/', '', $event);
+        foreach ($icals_storage as $ical) {
+            $rem    = str_replace('site/storage/addons/HappyDates/', '', $ical);
 
             $ignore = array( 'cgi-bin', '.', '..','._' );
             if (!in_array($rem, $ignore) and substr($rem, 0, 1) != '.') {
@@ -58,8 +57,8 @@ class HappyDatesController extends Controller
                 $icals[] = (object) [
                      'enabled'   => $info['enabled'],
                      'collection'=> $info['publish_to'],
-                     'name'      => slugify($info['events_title']),
-                     'title'     => $info['events_title'],
+                     'name'      => slugify($info['title']),
+                     'title'     => $info['title'],
                      'updated'   => $updated,
                      'url'       => $info['url']
                  ];
@@ -91,7 +90,7 @@ class HappyDatesController extends Controller
              'fieldset'     => $fieldset->toPublishArray(),
              'submitUrl'    => route('addons.happydates.update'),
              'suggestions'  => $this->getSuggestions($fieldset),
-             'title'        => $data['events_title'],
+             'title'        => $data['title'],
          ]);
     }
 
@@ -125,20 +124,17 @@ class HappyDatesController extends Controller
      */
     public function store(Request $request)
     {
-        $event = new iCal($request->fields['url']);
-        $events_title = slugify($event->title);
+        $ical_title = slugify($request->fields['title']);
 
-        if ($event) {
-            $data = $this->processFields($this->fieldset('edit'), $request->fields);
-            $data['events_title'] = $event->title;
-            $this->storage->putYAML($events_title, $data);
+        $data = $this->processFields($this->fieldset('edit'), $request->fields);
+        $data['title'] = $request->fields['title'];
+        $this->storage->putYAML($ical_title, $data);
 
-            return [
-                 'success' => true,
-                 'message' => 'Ical created successfully.',
-                 'event'    => $events_title
-             ];
-        }
+        return [
+             'success' => true,
+             'message' => 'Ical created successfully.',
+             'event'    => $ical_title
+         ];
     }
 
 
@@ -150,7 +146,7 @@ class HappyDatesController extends Controller
     public function update(Request $request)
     {
         $data = $this->processFields($this->fieldset('edit'), $request->fields);
-        $this->storage->putYAML(slugify($data['events_title']), $data);
+        $this->storage->putYAML(slugify($data['title']), $data);
 
         return [
              'success' => true,

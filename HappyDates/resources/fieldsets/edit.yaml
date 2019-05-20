@@ -3,6 +3,9 @@ sections:
     fields:
       settings_section:
         type: section
+      title:
+        type: text
+        validate: required
       url:
         type: text
         mode: url
@@ -19,8 +22,6 @@ sections:
         options:
           publish: Publish
           draft: Save as draft
-      feed_title:
-        type: hidden
   content:
     fields:
       content_section:
