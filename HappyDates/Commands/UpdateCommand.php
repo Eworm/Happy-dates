@@ -65,7 +65,6 @@ class UpdateCommand extends Command
                 foreach ($events as $date => $items) {
                     if ($enabled == true) {
                         foreach ($items as $item) {
-                            $this->info(var_dump($item));
 
                             if (array_key_exists('title', $item)) {
                                 $event_title = $item->title;
@@ -77,15 +76,15 @@ class UpdateCommand extends Command
 
                             $with = [];
                             $with['collection'] = $settings['publish_to'];
-                            $with['entry'][Str::removeLeft($settings['event_title'], '@ical:')] = $event_title; // Add the title
+                            $with['entry'][Str::removeLeft($settings['pw_title'], '@ical:')] = $event_title; // Add the title
                             $with['create'] = true;
 
                             // Item description
-                            $with['entry'][Str::removeLeft($settings['event_description'], '@ical:')] = $this->checkKey($settings, $item, 'description', 'description');
+                            $with['entry'][Str::removeLeft($settings['pw_description'], '@ical:')] = $this->checkKey($settings, $item, 'description', 'description');
 
                             // UID
                             if ($item->uid) {
-                                $with['entry']['event_uid'] = $item->uid;
+                                $with['entry']['pw_uid'] = $item->uid;
                             }
 
                             // Recurrence
@@ -93,32 +92,34 @@ class UpdateCommand extends Command
                             }
 
                             // Recurrence
-                            if ($item->uid) {
-                                $with['entry']['event_uid'] = $item->uid;
-                            }
+                            // if ($item->uid) {
+                                // $with['entry']['event_uid'] = $item->uid;
+                            // }
 
                             // Location
-                            $with['entry'][Str::removeLeft($settings['event_location'], '@ical:')] = $this->checkKey($settings, $item, 'location', 'location');
+                            $with['entry'][Str::removeLeft($settings['pw_location'], '@ical:')] = $this->checkKey($settings, $item, 'location', 'location');
 
                             // Status
-                            $with['entry'][Str::removeLeft($settings['event_status'], '@ical:')] = $this->checkKey($settings, $item, 'status', 'status');
+                            $with['entry'][Str::removeLeft($settings['pw_status'], '@ical:')] = $this->checkKey($settings, $item, 'status', 'status');
 
                             // Created
-                            $with['entry'][Str::removeLeft($settings['event_created'], '@ical:')] = $this->checkKey($settings, $item, 'created', 'created');
+                            $with['entry'][Str::removeLeft($settings['pw_created'], '@ical:')] = $this->checkKey($settings, $item, 'created', 'created');
 
                             // Updated
-                            $with['entry'][Str::removeLeft($settings['event_updated'], '@ical:')] = $this->checkKey($settings, $item, 'updated', 'updated');
+                            $with['entry'][Str::removeLeft($settings['pw_updated'], '@ical:')] = $this->checkKey($settings, $item, 'updated', 'updated');
 
                             // Startdate
-                            $with['entry'][Str::removeLeft($settings['event_startdate'], '@ical:')] = $this->checkKey($settings, $item, 'startdate', 'dateStart');
+                            $with['entry'][Str::removeLeft($settings['pw_start_date'], '@ical:')] = $this->checkKey($settings, $item, 'start_date', 'dateStart');
 
                             // Enddate
-                            $with['entry'][Str::removeLeft($settings['event_enddate'], '@ical:')] = $this->checkKey($settings, $item, 'enddate', 'dateEnd');
+                            $with['entry'][Str::removeLeft($settings['pw_end_date'], '@ical:')] = $this->checkKey($settings, $item, 'end_date', 'dateEnd');
 
                             // // Allow addons to modify the entry.
                             // $with = $this->runBeforeCreateEvent(array($with));
 
                             if ($with['create'] == true) {
+
+                                $this->info(var_dump($with));
 
                                 // Create an entry
                                 if (Entry::slugExists(slugify($with['entry']['title']), $with['collection'])) {
@@ -132,7 +133,7 @@ class UpdateCommand extends Command
                                         Entry::create(slugify($with['entry']['title']))
                                             ->collection($with['collection'])
                                             ->with($with['entry'])
-                                            ->date($with['entry']['startdate'])
+                                            ->date($with['entry']['pw_startdate'])
                                             ->save();
                                     } else {
                                         $this->info('Adding "' . $event_title . '" <fg=red>(draft)</>');
@@ -170,8 +171,8 @@ class UpdateCommand extends Command
      */
     public function checkKey($settings, $item, $name, $key)
     {
-        if (isset($settings['event_' . $name]) && $item->$key) {
-            if ($settings['event_' . $name] != false) {
+        if (isset($settings['pw_' . $name]) && $item->$key) {
+            if ($settings['pw_' . $name] != false) {
                 return $item->$key;
             }
         }

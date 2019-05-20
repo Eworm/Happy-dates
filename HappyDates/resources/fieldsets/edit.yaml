@@ -30,47 +30,47 @@ sections:
         max_items: 1
         width: 50
         validate: required
-      event_title:
+      pw_title:
         type: happydates.source
         field:
           type: text
-      event_description:
+      pw_description:
         type: happydates.source
         disableable: true
         field:
           type: text
-      event_location:
+      pw_location:
         disableable: true
         type: happydates.source
         field:
           type: text
-      event_status:
+      pw_status:
         disableable: true
         type: happydates.source
         field:
           type: text
-      event_startdate:
-        disableable: true
-        type: happydates.source
-        allowed_fieldtypes:
-          - date
-        field:
-          type: text
-      event_enddate:
+      pw_start_date:
         disableable: true
         type: happydates.source
         allowed_fieldtypes:
           - date
         field:
           type: text
-      event_created:
+      pw_end_date:
         disableable: true
         type: happydates.source
         allowed_fieldtypes:
           - date
         field:
           type: text
-      event_updated:
+      pw_created:
+        disableable: true
+        type: happydates.source
+        allowed_fieldtypes:
+          - date
+        field:
+          type: text
+      pw_updated:
         disableable: true
         type: happydates.source
         allowed_fieldtypes:
