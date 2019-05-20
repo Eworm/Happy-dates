@@ -1,0 +1,11 @@
+enabled: true
+scheduling: 60
+status: publish
+publish_to: blog
+event_title: '@ical:title'
+event_description: '@ical:content'
+event_location: '@ical:location'
+event_startdate: '@ical:startdate'
+event_enddate: '@ical:enddate'
+event_created: '@ical:created'
+event_updated: '@ical:updated'

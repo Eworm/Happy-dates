@@ -1,0 +1,79 @@
+sections:
+  settings:
+    fields:
+      settings_section:
+        type: section
+      url:
+        type: text
+        mode: url
+        validate: required
+      enabled:
+        type: toggle
+      scheduling:
+        type: text
+        mode: number
+        width: 25
+      status:
+        type: radio
+        inline: true
+        options:
+          publish: Publish
+          draft: Save as draft
+      feed_title:
+        type: hidden
+  content:
+    fields:
+      content_section:
+        type: section
+      publish_to:
+        type: collections
+        max_items: 1
+        width: 50
+        validate: required
+      event_title:
+        type: icalimport.source
+        field:
+          type: text
+      event_description:
+        type: icalimport.source
+        disableable: true
+        field:
+          type: text
+      event_location:
+        disableable: true
+        type: icalimport.source
+        field:
+          type: text
+      event_status:
+        disableable: true
+        type: icalimport.source
+        field:
+          type: text
+      event_startdate:
+        disableable: true
+        type: icalimport.source
+        allowed_fieldtypes:
+          - date
+        field:
+          type: text
+      event_enddate:
+        disableable: true
+        type: icalimport.source
+        allowed_fieldtypes:
+          - date
+        field:
+          type: text
+      event_created:
+        disableable: true
+        type: icalimport.source
+        allowed_fieldtypes:
+          - date
+        field:
+          type: text
+      event_updated:
+        disableable: true
+        type: icalimport.source
+        allowed_fieldtypes:
+          - date
+        field:
+          type: text
