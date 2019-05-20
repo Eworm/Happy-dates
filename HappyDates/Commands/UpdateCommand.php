@@ -133,7 +133,7 @@ class UpdateCommand extends Command
                                         Entry::create(slugify($with['entry']['title']))
                                             ->collection($with['collection'])
                                             ->with($with['entry'])
-                                            ->date($with['entry']['pw_startdate'])
+                                            ->date($with['entry']['pw_start_date'])
                                             ->save();
                                     } else {
                                         $this->info('Adding "' . $event_title . '" <fg=red>(draft)</>');
