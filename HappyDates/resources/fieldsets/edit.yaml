@@ -24,28 +24,15 @@ sections:
           draft: Save as draft
   content:
     fields:
-      content_section:
+      collection_section:
         type: section
       publish_to:
         type: collections
         max_items: 1
         width: 50
         validate: required
-      pw_description:
-        type: happydates.source
-        disableable: true
-        field:
-          type: text
-      pw_location:
-        disableable: true
-        type: happydates.source
-        field:
-          type: text
-      pw_status:
-        disableable: true
-        type: happydates.source
-        field:
-          type: text
+      date_section:
+        type: section
       pw_start_date:
         disableable: true
         type: happydates.source
@@ -72,5 +59,22 @@ sections:
         type: happydates.source
         allowed_fieldtypes:
           - date
+        field:
+          type: text
+      content_section:
+        type: section
+      pw_description:
+        type: happydates.source
+        disableable: true
+        field:
+          type: text
+      pw_location:
+        disableable: true
+        type: happydates.source
+        field:
+          type: text
+      pw_status:
+        disableable: true
+        type: happydates.source
         field:
           type: text
