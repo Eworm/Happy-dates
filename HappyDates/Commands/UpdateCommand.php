@@ -59,18 +59,12 @@ class UpdateCommand extends Command
                 $i = 0;
 
                 if ($enabled == true) {
-
                     $ical = new iCal($url);
-                    $this->info(\var_dump($ical));
                     $events = $ical->eventsByDate();
                     $timezone = $ical->timezone;
 
                     foreach ($events as $date => $items) {
-
                         foreach ($items as $item) {
-
-                            $this->info(\var_dump($item));
-
                             if (array_key_exists('title', $item)) {
                                 $event_title = str_limit($item->title, 200);
                             } else {
