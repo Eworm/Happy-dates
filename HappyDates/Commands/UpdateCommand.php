@@ -6,6 +6,8 @@ use Statamic\API\Str;
 use Statamic\Addons\HappyDates\iCal;
 use Illuminate\Support\Facades\Storage;
 use Statamic\API\Entry;
+use Statamic\API\Term;
+use Statamic\API\Taxonomy;
 use Statamic\API\File;
 use Statamic\Extend\Command;
 
@@ -57,6 +59,12 @@ class UpdateCommand extends Command
 
                 $this->info('Updating ' . $settings['title']);
                 $i = 0;
+
+                // Saves custom terms to the chosen taxonomy
+                if (isset($settings['custom_terms']) && isset($settings['custom_taxonomies'])) {
+                    $taxonomy = $settings['custom_taxonomies'];
+                    $this->save_custom_terms($settings['custom_terms'], $taxonomy);
+                }
 
                 if ($enabled == true) {
                     $ical = new iCal($url);
@@ -137,7 +145,12 @@ class UpdateCommand extends Command
                             // Enddate
                             $with['entry'][Str::removeLeft($settings['pw_end_date'], '@ical:')] = $this->checkKey($settings, $item, 'end_date', 'dateEnd');
 
-                            // // Allow addons to modify the entry.
+                            // Custom terms
+                            if (isset($settings['custom_terms']) && isset($settings['custom_taxonomies'])) {
+                                $with['entry'][$taxonomy] = $this->add_custom_terms($settings['custom_terms']);
+                            }
+
+                            // Allow addons to modify the entry.
                             $with = $this->runBeforeCreateEvent(array($with));
 
                             if ($with['create'] == true) {
@@ -252,5 +265,45 @@ class UpdateCommand extends Command
         }
 
         return $entry;
+    }
+
+
+    /**
+     * Saves custom terms
+     *
+     * @return info
+     */
+    private function save_custom_terms($tags, $taxonomy)
+    {
+        foreach ($tags as $term) {
+
+            if (!Term::slugExists(slugify($term), $taxonomy)) {
+
+                $this->info('Adding "' . $term . '" to "' . $taxonomy . '".');
+                Term::create(slugify($term))
+                    ->taxonomy($taxonomy)
+                    ->save();
+
+            } else {
+
+                $this->info('"' . $term . '" <fg=red>already exists</>');
+
+            }
+        }
+    }
+
+
+    /**
+     * Adds custom terms to an entry
+     *
+     * @return variable
+     */
+    private function add_custom_terms($tags)
+    {
+        $newtags = [];
+        foreach ($tags as $term) {
+            array_push($newtags, $term);
+        }
+        return $newtags;
     }
 }

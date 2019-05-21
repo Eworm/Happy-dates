@@ -47,4 +47,13 @@ return [
     'pw_updated' => 'Event updated',
     'pw_updated_instruct' => 'Choose an existing field, add a custom fieldtype name, or disable saving the content.',
 
+    'taxonomies_section' => 'Taxonomies & terms',
+    'taxonomies_section_instruct' => 'Options for event categories.',
+
+    'custom_taxonomies' => 'Custom term taxonomy',
+    'custom_taxonomies_instruct' => 'Which taxonomy should I use for custom terms?',
+
+    'custom_terms' => 'Custom terms',
+    'custom_terms_instruct' => 'These terms will be added to each new event.',
+
 ];

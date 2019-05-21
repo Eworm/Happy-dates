@@ -78,3 +78,16 @@ sections:
         type: happydates.source
         field:
           type: text
+  taxonomies:
+    fields:
+      taxonomies_section:
+        type: section
+      custom_taxonomies:
+        type: suggest
+        mode: HappyDates
+        max_items: 1
+        width: 50
+      custom_terms:
+        type: list
+        show_when:
+          custom_taxonomies: not null
