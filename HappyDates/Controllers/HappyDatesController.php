@@ -31,7 +31,7 @@ class HappyDatesController extends Controller
         $icals          = [];
 
         if (!$icals_storage) {
-            return redirect()->route('addons.happydates.create');
+            return redirect()->route('addons.happy-dates.create');
         }
 
         foreach ($icals_storage as $ical) {
@@ -88,7 +88,7 @@ class HappyDatesController extends Controller
         return $this->view('edit', [
              'data'         => $data,
              'fieldset'     => $fieldset->toPublishArray(),
-             'submitUrl'    => route('addons.happydates.update'),
+             'submitUrl'    => route('addons.happy-dates.update'),
              'suggestions'  => $this->getSuggestions($fieldset),
              'title'        => $data['title'],
          ]);
@@ -112,7 +112,7 @@ class HappyDatesController extends Controller
         return $this->view('create', [
              'data'         => $data,
              'fieldset'     => $fieldset->toPublishArray(),
-             'submitUrl'    => route('addons.happydates.store'),
+             'submitUrl'    => route('addons.happy-dates.store'),
              'title'        => 'Create ical',
          ]);
     }
@@ -125,8 +125,8 @@ class HappyDatesController extends Controller
      */
     public function refreshAll()
     {
-        Please::call('happydates:refresh');
-        return redirect()->route('addons.happydates');
+        Please::call('happy-dates:refresh');
+        return redirect()->route('addons.happy-dates');
     }
 
     /**
@@ -175,7 +175,7 @@ class HappyDatesController extends Controller
      */
     public function destroy(Request $request)
     {
-        Storage::delete('site/storage/addons/happydates/' . $request->event . '.yaml');
+        Storage::delete('site/storage/addons/HappyDates/' . $request->feed . '.yaml');
 
         return [
              'success' => true,

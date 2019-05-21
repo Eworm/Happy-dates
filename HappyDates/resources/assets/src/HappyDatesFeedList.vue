@@ -23,7 +23,7 @@ export default {
             function(canDelete) {
                 if (canDelete) {
                     self.$http.delete(
-                        cp_url('addons/happydates/destroy'), {
+                        cp_url('addons/happy-dates/destroy'), {
                             feed: feed
                         },
                         function() {

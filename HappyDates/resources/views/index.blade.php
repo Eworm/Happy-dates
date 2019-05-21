@@ -8,7 +8,7 @@
             <h1 class="flex-1">All ical feeds</h1>
             <div class="controls flex flex-wrap justify-center md:block items-center w-full md:w-auto">
                 <a href="#" @click="refresh()" class="btn btn-default">Refresh all</a>
-                <a href="{{ route('addons.happydates.create') }}" class="btn btn-primary ml-1 mt-1 md:mt-0">Add a feed</a>
+                <a href="{{ route('addons.happy-dates.create') }}" class="btn btn-primary ml-1 mt-1 md:mt-0">Add a feed</a>
             </div>
         </div>
 

@@ -1,22 +1,22 @@
 routes:
   /:
-    as: addons.happydates
+    as: addons.happy-dates
     uses: HappyDatesController@index
   /edit/{event}:
     as: addons.happydates.edit
     uses: HappyDatesController@edit
   /create:
-    as: addons.happydates.create
+    as: addons.happy-dates.create
     uses: HappyDatesController@create
   post@store:
-    as: addons.happydates.store
+    as: addons.happy-dates.store
     uses: HappyDatesController@store
   post@update:
-    as: addons.happydates.update
+    as: addons.happy-dates.update
     uses: HappyDatesController@update
   delete@destroy:
-    as: addons.happydates.destroy
+    as: addons.happy-dates.destroy
     uses: HappyDatesController@destroy
   /refreshAll:
-    as: addons.happydates.refreshAll
+    as: addons.happy-dates.refreshAll
     uses: HappyDatesController@refreshAll
