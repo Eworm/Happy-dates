@@ -22,7 +22,7 @@ use Carbon\Carbon;
 class HappyDatesTags extends Tags
 {
     /**
-     * The {{ ical_import }} tag
+     * The {{ happy_dates }} tag
      *
      * @return string|array
      */
@@ -32,7 +32,7 @@ class HappyDatesTags extends Tags
     }
 
     /**
-     * The {{ ical_import:start_date }} tag
+     * The {{ happy_dates:start_date }} tag
      *
      * @return string
      */
@@ -46,7 +46,7 @@ class HappyDatesTags extends Tags
     }
 
     /**
-     * The {{ ical_import:end_date }} tag
+     * The {{ happy_dates:end_date }} tag
      *
      * @return string
      */
@@ -60,92 +60,69 @@ class HappyDatesTags extends Tags
     }
 
     /**
-     * The {{ ical_import:recurring }} tag
+     * The {{ happy_dates:recurring }} tag
      *
      * @return array
      */
     public function recurring()
     {
         if ($this->context['pw_recurring'] == true) {
-            if ($this->context['pw_recurring_frequency'] != 'CUSTOM') {
-                $timezone  = $this->context['settings']['system']['timezone'];
-                $startdate = new \DateTime($this->startDate());
-                $enddate = new \DateTime($this->endDate());
+            $timezone  = $this->context['settings']['system']['timezone'];
+            $startdate = new \DateTime($this->startDate());
+            $enddate = new \DateTime($this->endDate());
 
-                if (isset($this->context['pw_recurring_ends'])) {
-                    $ends = $this->context['pw_recurring_ends'];
-                }
-                if (isset($this->context['pw_recurring_frequency'])) {
-                    $frequency = $this->context['pw_recurring_frequency'];
-                }
-                if (isset($this->context['pw_recurring_count'])) {
-                    $count = $this->context['pw_recurring_count'];
-                }
-                if (isset($this->context['pw_recurring_until'])) {
-                    $until = new \DateTime($this->context['pw_recurring_until']);
-                }
-                if (isset($this->context['pw_recurring_interval'])) {
-                    $interval = $this->context['pw_recurring_interval'];
-                }
-
-                $transformer = new Transformer\ArrayTransformer();
-
-                if ($ends == 'after') {
-                    $rule = (new \Recurr\Rule)
-                        ->setStartDate($startdate)
-                        ->setEndDate($enddate)
-                        ->setTimezone($timezone)
-                        ->setCount($count)
-                        ->setInterval($interval)
-                        ->setFreq($frequency);
-                } else {
-                    $rule = (new \Recurr\Rule)
-                        ->setStartDate($startdate)
-                        ->setEndDate($enddate)
-                        ->setTimezone($timezone)
-                        ->setFreq($frequency)
-                        ->setInterval($interval)
-                        ->setUntil($until);
-                }
-
-                $ruledates = $transformer->transform($rule);
-                $dates = [];
-
-                foreach ($ruledates as $date) {
-                    $startdate = $date->getStart();
-                    $carbon_start = $this->dtCarbon($startdate);
-                    $enddate = $date->getEnd();
-                    $carbon_end = $this->dtCarbon($enddate);
-
-                    $item = array(
-                        'start' => $carbon_start->toDateTimeString(),
-                        'end' => $carbon_end->toDateTimeString()
-                    );
-                    $dates[] = $item;
-                }
-                return $this->parseLoop($dates);
-            } else {
-                $customdates = $this->context['pw_recurring_manual'];
-                $dates = [];
-
-                // Add the start & end date of the current event
-                $dates[] = array(
-                    'start' => $this->startDate(),
-                    'end' => $this->endDate()
-                );
-
-                foreach ($customdates as $date) {
-                    $startdate = $date['pw_recurring_manual_start'];
-                    $enddate = $date['pw_recurring_manual_end'];
-
-                    $item = array(
-                        'start' => $startdate,
-                        'end' => $enddate
-                    );
-                    $dates[] = $item;
-                }
-                return $this->parseLoop($dates);
+            if (isset($this->context['pw_recurring_ends'])) {
+                $ends = $this->context['pw_recurring_ends'];
             }
+            if (isset($this->context['pw_recurring_frequency'])) {
+                $frequency = $this->context['pw_recurring_frequency'];
+            }
+            if (isset($this->context['pw_recurring_count'])) {
+                $count = $this->context['pw_recurring_count'];
+            }
+            if (isset($this->context['pw_recurring_until'])) {
+                $until = new \DateTime($this->context['pw_recurring_until']);
+            }
+            if (isset($this->context['pw_recurring_interval'])) {
+                $interval = $this->context['pw_recurring_interval'];
+            }
+
+            $transformer = new Transformer\ArrayTransformer();
+
+            if ($ends == 'after') {
+                $rule = (new \Recurr\Rule)
+                    ->setStartDate($startdate)
+                    ->setEndDate($enddate)
+                    ->setTimezone($timezone)
+                    ->setCount($count)
+                    ->setInterval($interval)
+                    ->setFreq($frequency);
+            } else {
+                $rule = (new \Recurr\Rule)
+                    ->setStartDate($startdate)
+                    ->setEndDate($enddate)
+                    ->setTimezone($timezone)
+                    ->setFreq($frequency)
+                    ->setInterval($interval)
+                    ->setUntil($until);
+            }
+
+            $ruledates = $transformer->transform($rule);
+            $dates = [];
+
+            foreach ($ruledates as $date) {
+                $startdate = $date->getStart();
+                $carbon_start = $this->dtCarbon($startdate);
+                $enddate = $date->getEnd();
+                $carbon_end = $this->dtCarbon($enddate);
+
+                $item = array(
+                    'start' => $carbon_start->toDateTimeString(),
+                    'end' => $carbon_end->toDateTimeString()
+                );
+                $dates[] = $item;
+            }
+            return $this->parseLoop($dates);
         }
     }
 
