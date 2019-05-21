@@ -117,6 +117,18 @@ class HappyDatesController extends Controller
          ]);
     }
 
+
+    /**
+     * Maps to the refresh all command
+     *
+     * @return mixed
+     */
+    public function refreshAll()
+    {
+        Please::call('happydates:refresh');
+        return redirect()->route('addons.happydates');
+    }
+
     /**
      * Stores a new ical
      *

@@ -37,7 +37,7 @@ export default {
         refresh: function() {
             var self = this;
             self.$http.get(
-                cp_url('addons/happydates/refreshAll')
+                cp_url('addons/happy-dates/refreshAll')
             );
             setTimeout(function () {
                 location.reload();
