@@ -14,8 +14,7 @@ class HappyDatesListener extends Listener
      */
     public $events = [
         'cp.nav.created' => 'addNavItems',
-        'cp.add_to_head' => 'addToHead',
-        'HappyDates.beforecreate' => 'disableEntry'
+        'cp.add_to_head' => 'addToHead'
     ];
 
     public function addNavItems($nav)

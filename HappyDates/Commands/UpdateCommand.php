@@ -128,7 +128,7 @@ class UpdateCommand extends Command
                             $with['entry'][Str::removeLeft($settings['pw_end_date'], '@ical:')] = $this->checkKey($settings, $item, 'end_date', 'dateEnd');
 
                             // // Allow addons to modify the entry.
-                            // $with = $this->runBeforeCreateEvent(array($with));
+                            $with = $this->runBeforeCreateEvent(array($with));
 
                             if ($with['create'] == true) {
 
