@@ -214,6 +214,11 @@ class iCal_Event
     public $created;
 
     /**
+     * @var integer
+     */
+    public $sequence;
+
+    /**
      * @var string
      */
     public $updated;
@@ -241,7 +246,6 @@ class iCal_Event
         }
     }
 
-
     public function summary()
     {
         return $this->summary;
@@ -255,6 +259,11 @@ class iCal_Event
     public function description()
     {
         return $this->description;
+    }
+
+    public function sequence()
+    {
+        return $this->sequence;
     }
 
     public function occurrences()
@@ -289,6 +298,11 @@ class iCal_Event
         // Description
         if (preg_match('`^DESCRIPTION:(.*)$`m', $content, $m)) {
             $this->description = trim($m[1]);
+        }
+
+        // Sequence
+        if (preg_match('`^SEQUENCE:(.*)$`m', $content, $m)) {
+            $this->sequence = trim($m[1]);
         }
 
         // Date start

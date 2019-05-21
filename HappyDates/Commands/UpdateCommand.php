@@ -65,6 +65,7 @@ class UpdateCommand extends Command
 
                     foreach ($events as $date => $items) {
                         foreach ($items as $item) {
+
                             if (array_key_exists('title', $item)) {
                                 $event_title = str_limit($item->title, 200);
                             } else {
@@ -76,6 +77,15 @@ class UpdateCommand extends Command
                             $with['entry']['title'] = $event_title; // Add the title
                             $with['entry']['pw_timezone'] = $timezone; // Add the timezone
                             $with['create'] = true;
+
+                            // See if there's a change
+                            if (\array_key_exists('sequence', $item)) {
+                                $num = $item->sequence;
+                                $int = (int)$num;
+                                $with['entry']['sequence'] = $int; // Set the sequence
+                            } else {
+                                $with['entry']['sequence'] = 0; // Set the sequence to 0
+                            }
 
                             // Item description
                             $with['entry'][Str::removeLeft($settings['pw_description'], '@ical:')] = $this->checkKey($settings, $item, 'description', 'description');
@@ -129,6 +139,8 @@ class UpdateCommand extends Command
 
                             // // Allow addons to modify the entry.
                             $with = $this->runBeforeCreateEvent(array($with));
+
+                            $this->info(\var_dump($with));
 
                             if ($with['create'] == true) {
 
