@@ -140,29 +140,40 @@ class UpdateCommand extends Command
                             // // Allow addons to modify the entry.
                             $with = $this->runBeforeCreateEvent(array($with));
 
-                            $this->info(\var_dump($with));
-
                             if ($with['create'] == true) {
 
                                 // Create an entry
-                                if (Entry::slugExists(slugify($with['entry']['title']), $with['collection'])) {
+                                $entry_title = slugify($with['entry']['title']);
+                                $entry_collection = $with['collection'];
+                                $file = Entry::whereSlug($entry_title, $entry_collection);
+
+                                // Check for changes
+                                if ($file->get('sequence') < $with['entry']['sequence']) {
+                                    $entry_changed = true;
+                                } else {
+                                    $entry_changed = false;
+                                }
+
+                                if (Entry::slugExists($entry_title, $entry_collection) && $entry_changed == false) {
+
                                     $this->info($event_title . " <fg=red>already exists</>");
+
                                 } else {
 
                                     // Checks the status
                                     if ($settings['status'] == 'publish') {
                                         $this->info('Adding "' . $event_title . '"');
 
-                                        Entry::create(slugify($with['entry']['title']))
-                                            ->collection($with['collection'])
+                                        Entry::create($entry_title)
+                                            ->collection($entry_collection)
                                             ->with($with['entry'])
                                             ->date($with['entry']['pw_start_date'])
                                             ->save();
                                     } else {
                                         $this->info('Adding "' . $event_title . '" <fg=red>(draft)</>');
 
-                                        Entry::create(slugify($with['entry']['title']))
-                                            ->collection($with['collection'])
+                                        Entry::create($entry_title)
+                                            ->collection($entry_collection)
                                             ->published(false)
                                             ->with($with['entry'])
                                             ->date(date('Y-m-d'))
