@@ -89,8 +89,27 @@ class UpdateCommand extends Command
                             }
 
                             // Recurrence
-                            if ($item->recurrence) {
-                                $with['entry']['pw_recurring'] = $item->recurrence;
+                            if ($item->recurrence != null) {
+                                $with['entry']['pw_recurring'] = true;
+                                if ($item->recurrence->freq) {
+                                    $with['entry']['pw_recurring_frequency'] = $item->recurrence->freq;
+                                }
+                                if ($item->recurrence->interval) {
+                                    $with['entry']['pw_recurring_interval'] = $item->recurrence->interval;
+                                }
+                                if (\array_key_exists('count', $item->recurrence)) {
+                                    $with['entry']['pw_recurring_count'] = $item->recurrence->count;
+                                    $with['entry']['pw_recurring_ends'] = 'after';
+                                }
+                                if (\array_key_exists('until', $item->recurrence)) {
+                                    $with['entry']['pw_recurring_count'] = $item->recurrence->until;
+                                    $with['entry']['pw_recurring_ends'] = 'on';
+                                }
+                                $byday = [];
+                                foreach ($item->recurrence->byday as $day) {
+                                    $byday[] = $day;
+                                }
+                                $with['entry']['pw_recurring_byday'] = $byday;
                             }
 
                             // Location
