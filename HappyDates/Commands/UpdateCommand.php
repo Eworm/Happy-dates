@@ -61,7 +61,9 @@ class UpdateCommand extends Command
                 if ($enabled == true) {
 
                     $ical = new iCal($url);
+                    $this->info(\var_dump($ical));
                     $events = $ical->eventsByDate();
+                    $timezone = $ical->timezone;
 
                     foreach ($events as $date => $items) {
 
@@ -78,6 +80,7 @@ class UpdateCommand extends Command
                             $with = [];
                             $with['collection'] = $settings['publish_to'];
                             $with['entry']['title'] = $event_title; // Add the title
+                            $with['entry']['pw_timezone'] = $timezone; // Add the timezone
                             $with['create'] = true;
 
                             // Item description

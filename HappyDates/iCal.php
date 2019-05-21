@@ -7,6 +7,11 @@ class iCal
     /**
      * @var string
      */
+    public $timezone;
+
+    /**
+     * @var string
+     */
     public $title;
 
     /**
@@ -51,6 +56,11 @@ class iCal
         }
     }
 
+
+    public function timezone()
+    {
+        return $this->timezone;
+    }
 
     public function title()
     {
@@ -126,6 +136,10 @@ class iCal
     public function parse($content)
     {
         $content = str_replace("\r\n ", '', $content);
+
+        // Timezone
+        preg_match('`^TZID:(.*)$`m', $content, $m);
+        $this->timezone = $m ? trim($m[1]) : null;
 
         // Title
         preg_match('`^X-WR-CALNAME:(.*)$`m', $content, $m);
