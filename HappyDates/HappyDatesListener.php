@@ -19,7 +19,7 @@ class HappyDatesListener extends Listener
 
     public function addNavItems($nav)
     {
-        $syndication = Nav::item('Ical import')->route('addons.happydates')->icon('calendar');
+        $syndication = Nav::item('Ical Sync')->route('addons.happydates')->icon('calendar');
         $nav->addTo('tools', $syndication);
     }
 
