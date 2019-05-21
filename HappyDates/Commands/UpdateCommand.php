@@ -142,14 +142,19 @@ class UpdateCommand extends Command
 
                             if ($with['create'] == true) {
 
+
                                 // Create an entry
                                 $entry_title = slugify($with['entry']['title']);
                                 $entry_collection = $with['collection'];
-                                $file = Entry::whereSlug($entry_title, $entry_collection);
 
                                 // Check for changes
-                                if ($file->get('sequence') < $with['entry']['sequence']) {
-                                    $entry_changed = true;
+                                if ($with['entry']['sequence']) {
+                                    $file = Entry::whereSlug($entry_title, $entry_collection);
+
+                                    if ($file->get('sequence') < $with['entry']['sequence']) {
+                                        $entry_changed = true;
+                                    }
+
                                 } else {
                                     $entry_changed = false;
                                 }
