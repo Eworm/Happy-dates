@@ -1,0 +1,6 @@
+HappyDates/resources/assets/src export-ignore
+HappyDates/package.json export-ignore
+HappyDates/package-lock.json export-ignore
+HappyDates/gulpfile.js export-ignore
+yarn.lock export-ignore
+.gitattributes export-ignore
