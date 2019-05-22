@@ -1,6 +1,7 @@
 <?php
 
 namespace Statamic\Addons\HappyDates;
+use Carbon\Carbon;
 
 class iCal
 {
@@ -306,15 +307,22 @@ class iCal_Event
         }
 
         // Date start
-        if (preg_match('`^DTSTART(?:;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
+        // if (preg_match('`^DTSTART(?:;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
+        if (preg_match('`^DTSTART(?:;.+)?:([0-9]+T[0-9]+Z?)`m', $content, $m)) {
             $this->_timeStart = strtotime($m[1]);
-            $this->dateStart  = date('Y-m-d H:i:s', $this->_timeStart);
+            // $this->dateStart  = date('Y-m-d H:i', $this->_timeStart);
+            // $date = (int)$m[1];
+            // $date1 = Carbon::createFromTimestamp($date)->format('Y-m-d H:i');
+            $date1 = Carbon::createFromTimestamp($this->_timeStart)->format('Y-m-d H:i');
+            // dd($date1);
+            $this->dateStart = $date1;
         }
 
         // Date end
-        if (preg_match('`^DTEND(?:;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
+        // if (preg_match('`^DTEND(?:;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
+        if (preg_match('`^DTEND(?:;.+)?:([0-9]+T[0-9]+Z?)`m', $content, $m)) {
             $this->_timeEnd = strtotime($m[1]);
-            $this->dateEnd  = date('Y-m-d H:i:s', $this->_timeEnd);
+            $this->dateEnd  = date('Y-m-d H:i', $this->_timeEnd);
         }
 
         // Exdate
