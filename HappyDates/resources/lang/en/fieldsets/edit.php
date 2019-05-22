@@ -19,12 +19,12 @@ return [
     'collection_section_instruct' => 'To which collection should I add new events?',
 
     'content_section' => 'Content',
-    'content_section_instruct' => 'If you use these presets the info integrates 100% with [Prestige Worldwide](https://statamic.com/marketplace/addons/prestige-worldwide).',
+    'content_section_instruct' => 'Happy Dates ❤ [Prestige Worldwide](https://statamic.com/marketplace/addons/prestige-worldwide). If you use these presets they integrate 100%.',
 
     'publish_to' => 'Choose a collection for new events.',
 
     'date_section' => 'Event dates',
-    'date_section_instruct' => 'If you use these presets the info integrates 100% with [Prestige Worldwide](https://statamic.com/marketplace/addons/prestige-worldwide).',
+    'date_section_instruct' => 'Happy Dates ❤ [Prestige Worldwide](https://statamic.com/marketplace/addons/prestige-worldwide). If you use these presets they integrate 100%.',
 
     'pw_description' => 'Event description',
     'pw_description_instruct' => 'Choose an existing field, add a custom fieldtype name, or disable saving the description.',
