@@ -49,16 +49,16 @@ Happy Dates fires the `HappyDates:beforecreate` event right before creating an e
     "collection": "happy days episodes",
     "entry": {
         "title": "All the Way"
-        "HP_timezone": null
+        "pw_timezone": null
         "sequence": 0
-        "HP_description": "The first episode"
-        "HP_uid": bmgvih9idcuiet3rfc336dq6so@ical.com
-        "HP_location": "Milwaukee, Wisconsin"
-        "HP_status": "Aired"
-        "HP_created": "2019-05-18 12:44:00"
-        "HP_updated": "2019-05-22 19:44:28"
-        "HP_start_date": "1975-04-02 20:00"
-        "HP_end_date": "1975-04-02 20:30"
+        "pw_description": "The first episode"
+        "pw_uid": bmgvih9idcuiet3rfc336dq6so@ical.com
+        "pw_location": "Milwaukee, Wisconsin"
+        "pw_status": "Aired"
+        "pw_created": "2019-05-18 12:44:00"
+        "pw_updated": "2019-05-22 19:44:28"
+        "pw_start_date": "1975-04-02 20:00"
+        "pw_end_date": "1975-04-02 20:30"
     },
     "create": true
 }
@@ -70,7 +70,7 @@ Instead of filters in the control panel you can use this to change the collectio
 Use the following tags for a list of events. HP adds custom filters to a Statamic collection, the rest is pure Statamic. [More info about collections is here](https://docs.statamic.com/tags/collection).
 
 ### Get all future events <a id="future"></a>
-In this example I'm using the Redwood partial 'block', but you'll probably want to change that to your own partial. Remove `paginate="true" limit="10" as="HP_events"`, `{{ HP_events }}`, and `{{ partial:pagination }}` if you don't care about pagination. Change `collection:blog` to the collection you use for your events.
+In this example I'm using the Redwood partial 'block', but you'll probably want to change that to your own partial. Remove `paginate="true" limit="10" as="hp_events"`, `{{ hp_events }}`, and `{{ partial:pagination }}` if you don't care about pagination. Change `collection:blog` to the collection you use for your events.
 
     {{ collection:blog filter="happy_dates" remove="past" paginate="true" limit="10" as="hp_events" }}
         {{ hp_events }}
@@ -88,7 +88,7 @@ In this example I'm using the Redwood partial 'block', but you'll probably want 
     {{ /collection:blog }}
 
 ## Detail page info & tags <a id="detail"></a>
-The idea of HP is to give you the freedom to build your eventpage the way you want to. You can use the following variables and tags:
+The idea of HP is to give you the freedom to build your event page the way you want to. You can use the following variables and tags:
 
 ### Variables
 * Start date: `{{ pw_start_date }}`
