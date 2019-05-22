@@ -16,15 +16,15 @@ return [
     'status' => 'What to do with new events',
 
     'collection_section' => 'Collection',
-    'collection_section_instruct' => 'To which collection should I add the events?',
+    'collection_section_instruct' => 'To which collection should I add new events?',
 
     'content_section' => 'Content',
-    'content_section_instruct' => 'If you use the presets the info integrates 100% with Prestige Worldwide',
+    'content_section_instruct' => 'If you use these presets the info integrates 100% with [Prestige Worldwide](https://statamic.com/marketplace/addons/prestige-worldwide).',
 
-    'publish_to' => 'Choose a collection for new events',
+    'publish_to' => 'Choose a collection for new events.',
 
     'date_section' => 'Event dates',
-    'date_section_instruct' => 'If you use the presets the info integrates 100% with Prestige Worldwide',
+    'date_section_instruct' => 'If you use these presets the info integrates 100% with [Prestige Worldwide](https://statamic.com/marketplace/addons/prestige-worldwide).',
 
     'pw_description' => 'Event description',
     'pw_description_instruct' => 'Choose an existing field, add a custom fieldtype name, or disable saving the description.',
