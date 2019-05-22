@@ -87,7 +87,7 @@ class UpdateCommand extends Command
                             $with['entry']['pw_timezone'] = $timezone; // Add the timezone
                             $with['create'] = true;
 
-                            // See if there's a change
+                            // See if there's a sequence
                             if (\array_key_exists('sequence', $item)) {
                                 $num = $item->sequence;
                                 $int = (int)$num;
@@ -167,7 +167,7 @@ class UpdateCommand extends Command
                                 if ($with['entry']['sequence']) {
                                     $file = Entry::whereSlug($entry_title, $entry_collection);
 
-                                    if ($file->get('sequence') < $with['entry']['sequence']) {
+                                    if ($file && ($file->has('sequence') < $with['entry']['sequence'])) {
                                         $entry_changed = true;
                                     }
 
