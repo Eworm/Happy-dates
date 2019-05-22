@@ -147,8 +147,10 @@ class UpdateCommand extends Command
                             $with['entry'][Str::removeLeft($settings['pw_end_date'], '@ical:')] = $this->checkKey($settings, $item, 'end_date', 'dateEnd');
 
                             // Custom terms
-                            if (isset($settings['custom_terms']) && isset($settings['custom_taxonomies'])) {
-                                $with['entry'][$taxonomy] = $this->add_custom_terms($settings['custom_terms']);
+                            if ($settings['enable_taxonomies'] == true) {
+                                if (isset($settings['custom_terms']) && isset($settings['custom_taxonomies'])) {
+                                    $with['entry'][$taxonomy] = $this->add_custom_terms($settings['custom_terms']);
+                                }
                             }
 
                             // Allow addons to modify the entry.

@@ -48,7 +48,9 @@ return [
     'pw_updated_instruct' => 'Choose an existing field, add a custom fieldtype name, or disable saving the content.',
 
     'taxonomies_section' => 'Taxonomies & terms',
-    'taxonomies_section_instruct' => 'Options for event categories.',
+    'taxonomies_section_instruct' => 'Options for custom taxonomies and terms.',
+
+    'enable_taxonomies' => 'Enable to add custom terms to each event from this feed.',
 
     'custom_taxonomies' => 'Custom term taxonomy',
     'custom_taxonomies_instruct' => 'Which taxonomy should I use for custom terms?',

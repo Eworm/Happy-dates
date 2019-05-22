@@ -78,16 +78,20 @@ sections:
         type: happydates.source
         field:
           type: text
-  taxonomies:
+  custom terms:
     fields:
       taxonomies_section:
         type: section
+      enable_taxonomies:
+        type: toggle
       custom_taxonomies:
         type: suggest
         mode: HappyDates
         max_items: 1
         width: 50
+        show_when:
+          enable_taxonomies: true
       custom_terms:
         type: list
         show_when:
-          custom_taxonomies: not null
+          enable_taxonomies: true

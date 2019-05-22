@@ -9,4 +9,5 @@ pw_end_date: '@ical:pw_end_date'
 pw_created: '@ical:pw_created'
 pw_updated: '@ical:pw_updated'
 pw_status: '@ical:pw_status'
+enable_taxonomies: false
 custom_taxonomies: null
