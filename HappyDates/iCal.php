@@ -307,22 +307,17 @@ class iCal_Event
         }
 
         // Date start
-        // if (preg_match('`^DTSTART(?:;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
         if (preg_match('`^DTSTART(?:;.+)?:([0-9]+T[0-9]+Z?)`m', $content, $m)) {
             $this->_timeStart = strtotime($m[1]);
-            // $this->dateStart  = date('Y-m-d H:i', $this->_timeStart);
-            // $date = (int)$m[1];
-            // $date1 = Carbon::createFromTimestamp($date)->format('Y-m-d H:i');
-            $date1 = Carbon::createFromTimestamp($this->_timeStart)->format('Y-m-d H:i');
-            // dd($date1);
-            $this->dateStart = $date1;
+            $date = Carbon::createFromTimestamp($this->_timeStart)->format('Y-m-d H:i');
+            $this->dateStart = $date;
         }
 
         // Date end
-        // if (preg_match('`^DTEND(?:;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
         if (preg_match('`^DTEND(?:;.+)?:([0-9]+T[0-9]+Z?)`m', $content, $m)) {
             $this->_timeEnd = strtotime($m[1]);
-            $this->dateEnd  = date('Y-m-d H:i', $this->_timeEnd);
+            $date = Carbon::createFromTimestamp($this->_timeEnd)->format('Y-m-d H:i');
+            $this->dateEnd = $date;
         }
 
         // Exdate

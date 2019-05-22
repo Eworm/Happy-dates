@@ -75,8 +75,6 @@ class UpdateCommand extends Command
                     foreach ($events as $date => $items) {
                         foreach ($items as $item) {
 
-                            // $this->info(\var_dump($item));
-
                             if (array_key_exists('title', $item)) {
                                 $event_title = str_limit($item->title, 200);
                             } else {
@@ -143,8 +141,6 @@ class UpdateCommand extends Command
                             $with['entry'][Str::removeLeft($settings['pw_updated'], '@ical:')] = $this->checkKey($settings, $item, 'updated', 'updated');
 
                             // Startdate
-                            // $date = Carbon::createFromTimestamp($item->dateStart)->format('Y-m-d H:i');
-                            $this->info($item->dateStart);
                             $with['entry'][Str::removeLeft($settings['pw_start_date'], '@ical:')] = $this->checkKey($settings, $item, 'start_date', 'dateStart');
 
                             // Enddate
