@@ -9,3 +9,6 @@ Happy Dates is an iCal syndicator for Statamic. It populates collections with ev
 * Listen to the `HappyDates:beforecreate` event to change the collection, the contents of the entry, or even disable creating the entry!
 
 _Features requests? Found a bug? [Let me know!](mailto:wout@woutmager.nl)_
+
+### Happy Dates ❤ [Prestige Worldwide](https://statamic.com/marketplace/addons/prestige-worldwide)
+Find out why in [the docs](https://statamic.com/marketplace/addons/prestige-worldwide).
