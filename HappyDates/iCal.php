@@ -43,16 +43,6 @@ class iCal
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
             $data = curl_exec($ch);
             curl_close ($ch);
-            // return $data;
-
-            // $isUrl  = strpos($content, 'http') === 0 && filter_var($content, FILTER_VALIDATE_URL);
-            // $isFile = strpos($content, "\n") === false && file_exists($content);
-            // if ($isUrl || $isFile) {
-            //     $content = file_get_contents($content);
-            // }
-            // dd($isFile);
-            // $newdata = $this->parse($data);
-            // dd($newdata);
             return $this->parse($data);
         }
     }
@@ -307,14 +297,14 @@ class iCal_Event
         }
 
         // Date start
-        if (preg_match('`^DTSTART(?:;.+)?:([0-9]+T[0-9]+Z?)`m', $content, $m)) {
+        if (preg_match('`^DTSTART(?:;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
             $this->_timeStart = strtotime($m[1]);
             $date = Carbon::createFromTimestamp($this->_timeStart)->format('Y-m-d H:i');
             $this->dateStart = $date;
         }
 
         // Date end
-        if (preg_match('`^DTEND(?:;.+)?:([0-9]+T[0-9]+Z?)`m', $content, $m)) {
+        if (preg_match('`^DTEND(?:;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
             $this->_timeEnd = strtotime($m[1]);
             $date = Carbon::createFromTimestamp($this->_timeEnd)->format('Y-m-d H:i');
             $this->dateEnd = $date;
