@@ -11,6 +11,7 @@ use Statamic\API\Taxonomy;
 use Statamic\API\File;
 use Statamic\Extend\Command;
 use Carbon\Carbon;
+use Statamic\Data\Data;
 
 class UpdateCommand extends Command
 {
@@ -158,24 +159,17 @@ class UpdateCommand extends Command
 
                             if ($with['create'] == true) {
 
-
                                 // Create an entry
                                 $entry_title = slugify($with['entry']['title']);
                                 $entry_collection = $with['collection'];
 
-                                // Check for changes
-                                if ($with['entry']['sequence']) {
-                                    $file = Entry::whereSlug($entry_title, $entry_collection);
-
-                                    if ($file && ($file->has('sequence') < $with['entry']['sequence'])) {
-                                        $entry_changed = true;
-                                    }
-
-                                } else {
-                                    $entry_changed = false;
+                                // Delete the file if there are changes
+                                $file = Entry::whereSlug($entry_title, $entry_collection);
+                                if ($file && ($file->get('sequence') < $with['entry']['sequence'])) {
+                                    $file->delete();
                                 }
 
-                                if (Entry::slugExists($entry_title, $entry_collection) && $entry_changed == false) {
+                                if (Entry::slugExists($entry_title, $entry_collection)) {
 
                                     $this->info($event_title . " <fg=red>already exists</>");
 
