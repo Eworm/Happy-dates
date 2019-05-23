@@ -19,7 +19,7 @@ class UpdateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'happydates:refresh';
+    protected $signature = 'happy-dates:refresh';
 
     /**
      * The console command description.
