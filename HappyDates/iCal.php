@@ -297,21 +297,21 @@ class iCal_Event
         }
 
         // Date start
-        if (preg_match('`^DTSTART(?:;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
+        if (preg_match('`^DTSTART(?:;.+)?:([0-9]+(T[0-9]+)?)`m', $content, $m)) {
             $this->_timeStart = strtotime($m[1]);
             $date = Carbon::createFromTimestamp($this->_timeStart)->format('Y-m-d H:i');
             $this->dateStart = $date;
         }
 
         // Date end
-        if (preg_match('`^DTEND(?:;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
+        if (preg_match('`^DTEND(?:;.+)?:([0-9]+(T[0-9]+)?)`m', $content, $m)) {
             $this->_timeEnd = strtotime($m[1]);
             $date = Carbon::createFromTimestamp($this->_timeEnd)->format('Y-m-d H:i');
             $this->dateEnd = $date;
         }
 
         // Exdate
-        if (preg_match_all('`^EXDATE(;.+)?:([0-9]+(T[0-9]+Z)?)`m', $content, $m)) {
+        if (preg_match_all('`^EXDATE(;.+)?:([0-9]+(T[0-9]+)?)`m', $content, $m)) {
             foreach ($m[2] as $dates) {
                 $dates = explode(',', $dates);
                 foreach ($dates as $d) {
