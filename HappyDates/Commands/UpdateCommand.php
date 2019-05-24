@@ -162,6 +162,7 @@ class UpdateCommand extends Command
                                 // Find a file by id and delete it if there are changes
                                 $file = Entry::find($entry_uid);
                                 if ($file && ($file->get('sequence') < $with['entry']['sequence'])) {
+                                    $this->info('Deleting "' . $event_title . '"');
                                     $file->delete();
                                 }
 
