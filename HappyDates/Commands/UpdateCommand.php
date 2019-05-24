@@ -51,9 +51,10 @@ class UpdateCommand extends Command
             $ignore = array( 'cgi-bin', '.', '..','._' );
 
             if (!in_array($st_event, $ignore) and substr($st_event, 0, 1) != '.') {
-                $settings   = $this->storage->getYaml($st_event);
-                $url        = $settings['url'];
-                $enabled    = $settings['enabled'];
+                $settings = $this->storage->getYaml($st_event);
+                $settings_title = $settings['title'];
+                $settings_url = $settings['url'];
+                $enabled = $settings['enabled'];
 
                 // Add the last updated time to the feed info
                 $settings['updated'] = time();
@@ -69,7 +70,7 @@ class UpdateCommand extends Command
                 }
 
                 if ($enabled == true) {
-                    $ical = new iCal($url);
+                    $ical = new iCal($settings_url);
                     $events = $ical->eventsByDate();
                     $timezone = $ical->timezone;
 
@@ -84,6 +85,7 @@ class UpdateCommand extends Command
 
                             $with = [];
                             $with['collection'] = $settings['publish_to'];
+                            $with['entry']['feed_title'] = slugify($settings_title); // Add feed title
                             $with['entry']['title'] = $event_title; // Add the title
                             $with['entry']['pw_timezone'] = $timezone; // Add the timezone
                             $with['create'] = true;
