@@ -100,11 +100,6 @@ class UpdateCommand extends Command
                             // Item description
                             $with['entry'][Str::removeLeft($settings['pw_description'], '@ical:')] = $this->checkKey($settings, $item, 'description', 'description');
 
-                            // UID
-                            if ($item->uid) {
-                                $with['entry']['pw_uid'] = $item->uid;
-                            }
-
                             // Recurrence
                             if ($item->recurrence != null) {
                                 $with['entry']['pw_recurring'] = true;
@@ -162,9 +157,10 @@ class UpdateCommand extends Command
                                 // Create an entry
                                 $entry_title = slugify($with['entry']['title']);
                                 $entry_collection = $with['collection'];
+                                $entry_uid = $this->clean($item->uid);
 
-                                // Delete the file if there are changes
-                                $file = Entry::whereSlug($entry_title, $entry_collection);
+                                // Find a file by id and delete it if there are changes
+                                $file = Entry::find($entry_uid);
                                 if ($file && ($file->get('sequence') < $with['entry']['sequence'])) {
                                     $file->delete();
                                 }
@@ -183,6 +179,7 @@ class UpdateCommand extends Command
                                             ->collection($entry_collection)
                                             ->with($with['entry'])
                                             ->date($with['entry']['pw_start_date'])
+                                            ->id($entry_uid)
                                             ->save();
                                     } else {
                                         $this->info('Adding "' . $event_title . '" <fg=red>(draft)</>');
@@ -192,6 +189,7 @@ class UpdateCommand extends Command
                                             ->published(false)
                                             ->with($with['entry'])
                                             ->date(date('Y-m-d'))
+                                            ->id($entry_uid)
                                             ->save();
                                     }
 
@@ -293,7 +291,7 @@ class UpdateCommand extends Command
     /**
      * Adds custom terms to an entry
      *
-     * @return variable
+     * @return array
      */
     private function add_custom_terms($tags)
     {
@@ -302,5 +300,17 @@ class UpdateCommand extends Command
             array_push($newtags, $term);
         }
         return $newtags;
+    }
+
+
+    /**
+     * Cleans a string
+     *
+     * @return string
+     */
+    private function clean($string)
+    {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+        return preg_replace('/[^A-Za-z0-9]/', '', $string); // Removes special chars.
     }
 }
