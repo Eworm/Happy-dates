@@ -102,13 +102,13 @@ class UpdateCommand extends Command
                             // Item description
                             $with['entry'][Str::removeLeft($settings['pw_description'], '@ical:')] = $this->checkKey($settings, $item, 'description', 'description');
 
-                            // Recurrence
+                            // Check for recurrence and add the info
                             if ($item->recurrence != null) {
                                 $with['entry']['pw_recurring'] = true;
-                                if ($item->recurrence->freq) {
+                                if (\array_key_exists('freq', $item->recurrence)) {
                                     $with['entry']['pw_recurring_frequency'] = $item->recurrence->freq;
                                 }
-                                if ($item->recurrence->interval) {
+                                if (\array_key_exists('interval', $item->recurrence)) {
                                     $with['entry']['pw_recurring_interval'] = $item->recurrence->interval;
                                 }
                                 if (\array_key_exists('count', $item->recurrence)) {
@@ -119,11 +119,13 @@ class UpdateCommand extends Command
                                     $with['entry']['pw_recurring_count'] = $item->recurrence->until;
                                     $with['entry']['pw_recurring_ends'] = 'on';
                                 }
-                                $byday = [];
-                                foreach ($item->recurrence->byday as $day) {
-                                    $byday[] = $day;
+                                if (\array_key_exists('byday', $item->recurrence)) {
+                                    $byday = [];
+                                    foreach ($item->recurrence->byday as $day) {
+                                        $byday[] = $day;
+                                    }
+                                    $with['entry']['pw_recurring_byday'] = $byday;
                                 }
-                                $with['entry']['pw_recurring_byday'] = $byday;
                             }
 
                             // Location
