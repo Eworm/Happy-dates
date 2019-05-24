@@ -161,9 +161,16 @@ class UpdateCommand extends Command
 
                                 // Find a file by id and delete it if there are changes
                                 $file = Entry::find($entry_uid);
-                                if ($file && ($file->get('sequence') < $with['entry']['sequence'])) {
-                                    $this->info('Deleting "' . $event_title . '"');
-                                    $file->delete();
+                                if ($file) {
+
+                                    if (($file->get('sequence') < $with['entry']['sequence'])) {
+                                        $this->info('Deleting "' . $event_title . '"');
+                                        $file->delete();
+                                    } else if (($file->get('pw_updated') < $with['entry']['pw_updated'])) {
+                                        $this->info('Deleting "' . $event_title . '"');
+                                        $file->delete();
+                                    }
+
                                 }
 
                                 if (Entry::slugExists($entry_title, $entry_collection)) {
