@@ -22,7 +22,7 @@
                         <tr>
                             <th class="column-title">Title</th>
                             <th class="column-slug">Url</th>
-                            <th class="column-slug">Publishes to</th>
+                            <th class="column-slug">Collection</th>
                             <th class="column-date">Last Update</th>
                             <th class="column-enabled">Status</th>
                             <th class="column-actions"></th>
@@ -35,14 +35,14 @@
                             <tr>
 
                                 <td class="cell-title first-cell">
-                                    <a href="{{ route('addons.happydates.edit', $ical->name) }}">
+                                    <a href="{{ route('addons.happydates.edit', $ical->name) }}" title="Edit {{ $ical->title }}">
                                         {{ $ical->title }}
                                     </a>
                                 </td>
 
                                 <td class="cell-permalink">
-                                    <a href="{{ $ical->url }}" rel="external" target="_blank">
-                                        {{ $ical->url }}
+                                    <a href="{{ $ical->url }}" rel="external" target="_blank" title="{{ $ical->url }}">
+                                        Hover to see url
                                     </a>
                                 </td>
 
