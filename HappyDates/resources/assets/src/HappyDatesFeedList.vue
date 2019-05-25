@@ -9,6 +9,31 @@ export default {
 
     methods: {
 
+        deleteEntries: function(feed) {
+            var self = this;
+
+            swal({
+                title: translate('cp.are_you_sure'),
+                text: translate_choice('cp.confirm_delete_items', 1),
+                type: 'warning',
+                confirmButtonText: translate('cp.yes_im_sure'),
+                showCancelButton: true,
+                closeOnConfirm: false,
+            },
+            function(canDelete) {
+                if (canDelete) {
+                    self.$http.delete(
+                        cp_url('addons/happy-dates/destroy_entries'), {
+                            feed: feed
+                        },
+                        function() {
+                            location.reload();
+                        }
+                    )
+                }
+            });
+        },
+
         deleteFeed: function(feed) {
             var self = this;
 

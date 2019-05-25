@@ -17,6 +17,9 @@ routes:
   delete@destroy:
     as: addons.happy-dates.destroy
     uses: HappyDatesController@destroy
+  delete@destroy_entries:
+    as: addons.happy-dates.destroy_entries
+    uses: HappyDatesController@destroy_entries
   /refreshAll:
     as: addons.happy-dates.refreshAll
     uses: HappyDatesController@refreshAll

@@ -5,6 +5,7 @@ namespace Statamic\Addons\HappyDates\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Statamic\Console\Please;
 use Statamic\API\Path;
+use Statamic\API\Entry;
 use Statamic\API\File;
 use Statamic\API\YAML;
 use Statamic\API\Parse;
@@ -143,10 +144,10 @@ class HappyDatesController extends Controller
         $this->storage->putYAML($ical_title, $data);
 
         return [
-             'success' => true,
-             'message' => 'Ical created successfully.',
-             'event'    => $ical_title
-         ];
+            'success' => true,
+            'message' => 'Ical created successfully.',
+            'event'    => $ical_title
+        ];
     }
 
 
@@ -161,10 +162,10 @@ class HappyDatesController extends Controller
         $this->storage->putYAML(slugify($data['title']), $data);
 
         return [
-             'success' => true,
-             'message' => 'Ical updated successfully.',
-             'event'    => $request->event
-         ];
+            'success' => true,
+            'message' => 'Ical updated successfully.',
+            'event'    => $request->event
+        ];
     }
 
 
@@ -178,9 +179,32 @@ class HappyDatesController extends Controller
         Storage::delete('site/storage/addons/HappyDates/' . $request->feed . '.yaml');
 
         return [
-             'success' => true,
-             'message' => 'Ical deleted successfully'
-         ];
+            'success' => true,
+            'message' => 'Ical deleted successfully'
+        ];
+    }
+
+
+    /**
+     * Maps to your route definition in routes.yaml
+     *
+     * @return mixed
+     */
+    public function destroy_entries(Request $request)
+    {
+        $data = YAML::parse(Storage::get('site/storage/addons/HappyDates/' . $request->feed . '.yaml'));
+        $entries = Entry::whereCollection($data['publish_to']);
+
+        foreach ($entries as $entry) {
+            if ($entry->get('feed_title') == $request->feed) {
+                $entry->delete();
+            }
+        }
+
+        return [
+            'success' => true,
+            'message' => 'All events deleted successfully'
+        ];
     }
 
 

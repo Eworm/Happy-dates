@@ -71,6 +71,9 @@
                                         </button>
 
                                         <ul class="dropdown-menu">
+                                            <li @click="deleteEntries('{{ $ical->name }}')">
+                                                <a href="#" title="Delete this feed">Delete entries</a>
+                                            </li>
                                             <li class="warning" @click="deleteFeed('{{ $ical->name }}')">
                                                 <a href="#" title="Delete this feed">Delete</a>
                                             </li>
