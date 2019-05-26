@@ -23,7 +23,7 @@ export default {
             function(canDelete) {
                 if (canDelete) {
                     self.$http.delete(
-                        cp_url('addons/happy-dates/destroy_entries'), {
+                        cp_url('addons/happydates/destroy_entries'), {
                             feed: feed
                         },
                         function() {
@@ -48,7 +48,7 @@ export default {
             function(canDelete) {
                 if (canDelete) {
                     self.$http.delete(
-                        cp_url('addons/happy-dates/destroy'), {
+                        cp_url('addons/happydates/destroy'), {
                             feed: feed
                         },
                         function() {
@@ -62,7 +62,7 @@ export default {
         refresh: function() {
             var self = this;
             self.$http.get(
-                cp_url('addons/happy-dates/refreshAll')
+                cp_url('addons/happydates/refreshAll')
             );
             setTimeout(function () {
                 location.reload();

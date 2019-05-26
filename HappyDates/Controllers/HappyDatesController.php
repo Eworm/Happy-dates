@@ -32,7 +32,7 @@ class HappyDatesController extends Controller
         $icals          = [];
 
         if (!$icals_storage) {
-            return redirect()->route('addons.happy-dates.create');
+            return redirect()->route('addons.happydates.create');
         }
 
         foreach ($icals_storage as $ical) {
@@ -89,7 +89,7 @@ class HappyDatesController extends Controller
         return $this->view('edit', [
              'data'         => $data,
              'fieldset'     => $fieldset->toPublishArray(),
-             'submitUrl'    => route('addons.happy-dates.update'),
+             'submitUrl'    => route('addons.happydates.update'),
              'suggestions'  => $this->getSuggestions($fieldset),
              'title'        => $data['title'],
          ]);
@@ -113,7 +113,7 @@ class HappyDatesController extends Controller
         return $this->view('create', [
              'data'         => $data,
              'fieldset'     => $fieldset->toPublishArray(),
-             'submitUrl'    => route('addons.happy-dates.store'),
+             'submitUrl'    => route('addons.happydates.store'),
              'title'        => 'Create ical',
          ]);
     }
@@ -126,8 +126,8 @@ class HappyDatesController extends Controller
      */
     public function refreshAll()
     {
-        Please::call('happy-dates:refresh');
-        return redirect()->route('addons.happy-dates');
+        Please::call('happydates:refresh');
+        return redirect()->route('addons.happydates');
     }
 
     /**
@@ -192,19 +192,23 @@ class HappyDatesController extends Controller
      */
     public function destroy_entries(Request $request)
     {
-        $data = YAML::parse(Storage::get('site/storage/addons/HappyDates/' . $request->feed . '.yaml'));
-        $entries = Entry::whereCollection($data['publish_to']);
 
-        foreach ($entries as $entry) {
-            if ($entry->get('feed_title') == $request->feed) {
-                $entry->delete();
-            }
-        }
+        Please::call('happydates:delete_entries');
+        return redirect()->route('addons.happydates');
 
-        return [
-            'success' => true,
-            'message' => 'All events deleted successfully'
-        ];
+        // $data = YAML::parse(Storage::get('site/storage/addons/HappyDates/' . $request->feed . '.yaml'));
+        // $entries = Entry::whereCollection($data['publish_to']);
+        //
+        // foreach ($entries as $entry) {
+        //     if ($entry->get('feed_title') == $request->feed) {
+        //         $entry->delete();
+        //     }
+        // }
+
+        // return [
+        //     'success' => true,
+        //     'message' => 'All events deleted successfully'
+        // ];
     }
 
 
