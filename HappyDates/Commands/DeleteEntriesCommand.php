@@ -16,7 +16,7 @@ class DeleteEntriesCommand extends Command
      * @var string
      */
     protected $signature = 'happydates:delete-entries
-                            {name=feed : The feed title}';
+                            {feed=feed : The feed title}';
 
     /**
      * The console command description.
@@ -41,7 +41,7 @@ class DeleteEntriesCommand extends Command
     public function handle()
     {
 
-        $feed_name = $this->argument('name');
+        $feed_name = $this->argument('feed');
 
         if ($this->storage->getYAML($feed_name) != null) {
 

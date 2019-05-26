@@ -127,7 +127,6 @@ class HappyDatesController extends Controller
     public function refreshAll()
     {
         Please::call('happydates:refresh');
-        return redirect()->route('addons.happydates');
     }
 
     /**
@@ -190,12 +189,9 @@ class HappyDatesController extends Controller
      *
      * @return mixed
      */
-    public function destroy_entries(Request $request)
+    public function destroyEntries(Request $request)
     {
-
-        Please::call('happydates:delete_entries', $request->feed);
-        return redirect()->route('addons.happydates');
-
+        Please::call('happydates:delete-entries', ['feed' => $request->feed]);
     }
 
 
