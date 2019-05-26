@@ -67,8 +67,8 @@ class HappyDatesController extends Controller
         }
 
         return $this->view('index', [
-             'icals' => $icals
-         ]);
+            'icals' => $icals
+        ]);
     }
 
 
@@ -82,17 +82,17 @@ class HappyDatesController extends Controller
         $fieldset  = $this->fieldset('edit');
 
         $data = $this->preProcessWithBlankFields(
-             $fieldset,
-             $this->storage->getYaml($request->event)
-         );
+            $fieldset,
+            $this->storage->getYaml($request->event)
+        );
 
         return $this->view('edit', [
-             'data'         => $data,
-             'fieldset'     => $fieldset->toPublishArray(),
-             'submitUrl'    => route('addons.happydates.update'),
-             'suggestions'  => $this->getSuggestions($fieldset),
-             'title'        => $data['title'],
-         ]);
+            'data'         => $data,
+            'fieldset'     => $fieldset->toPublishArray(),
+            'submitUrl'    => route('addons.happydates.update'),
+            'suggestions'  => $this->getSuggestions($fieldset),
+            'title'        => $data['title'],
+        ]);
     }
 
 
@@ -106,16 +106,16 @@ class HappyDatesController extends Controller
         $fieldset  = $this->fieldset('edit');
 
         $data = $this->preProcessWithBlankFields(
-             $fieldset,
-             YAML::parse(File::get($this->getDirectory() . '/defaults.yaml'))
-         );
+            $fieldset,
+            YAML::parse(File::get($this->getDirectory() . '/defaults.yaml'))
+        );
 
         return $this->view('create', [
-             'data'         => $data,
-             'fieldset'     => $fieldset->toPublishArray(),
-             'submitUrl'    => route('addons.happydates.store'),
-             'title'        => 'Create ical',
-         ]);
+            'data'         => $data,
+            'fieldset'     => $fieldset->toPublishArray(),
+            'submitUrl'    => route('addons.happydates.store'),
+            'title'        => 'Create ical',
+        ]);
     }
 
 
@@ -198,9 +198,9 @@ class HappyDatesController extends Controller
     protected function fieldset($fieldset)
     {
         return $this->translateFieldset(Fieldset::create(
-             $fieldset,
-             YAML::parse(File::get($this->getDirectory() . '/resources/fieldsets/' . $fieldset . '.yaml'))
-         ));
+            $fieldset,
+            YAML::parse(File::get($this->getDirectory() . '/resources/fieldsets/' . $fieldset . '.yaml'))
+        ));
     }
 
     private function prepareData($data)
