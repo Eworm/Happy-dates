@@ -27,7 +27,7 @@ class UpdateCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Updates all events';
+    protected $description = 'Updates all feeds';
 
     /**
      * Create a new command instance.

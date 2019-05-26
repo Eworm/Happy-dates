@@ -2,6 +2,10 @@
 
 namespace Statamic\Addons\HappyDates\Commands;
 
+use Illuminate\Support\Facades\Storage;
+use Statamic\API\Entry;
+use Statamic\API\YAML;
+use Statamic\API\Parse;
 use Statamic\Extend\Command;
 
 class DeleteEntriesCommand extends Command
@@ -11,14 +15,15 @@ class DeleteEntriesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'happydates:deleteentries';
+    protected $signature = 'happydates:delete-entries
+                            {name=feed : The feed title}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '';
+    protected $description = 'Deletes all feed entries';
 
     /**
      * Create a new command instance.
@@ -35,6 +40,27 @@ class DeleteEntriesCommand extends Command
      */
     public function handle()
     {
-        //
+
+        $feed_name = $this->argument('name');
+
+        if ($this->storage->getYAML($feed_name) != null) {
+
+            $data = $this->storage->getYAML($feed_name);
+            $entries = Entry::whereCollection($data['publish_to']);
+
+            foreach ($entries as $entry) {
+
+                if ($entry->get('feed_title') == $feed_name) {
+                    $entry->delete();
+                }
+
+            }
+            $this->info('I finished deleting all entries made by ' . $feed_name);
+
+        } else {
+
+            $this->info('There is no feed with that name');
+
+        }
     }
 }

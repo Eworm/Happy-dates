@@ -193,22 +193,9 @@ class HappyDatesController extends Controller
     public function destroy_entries(Request $request)
     {
 
-        Please::call('happydates:delete_entries');
+        Please::call('happydates:delete_entries', $request->feed);
         return redirect()->route('addons.happydates');
 
-        // $data = YAML::parse(Storage::get('site/storage/addons/HappyDates/' . $request->feed . '.yaml'));
-        // $entries = Entry::whereCollection($data['publish_to']);
-        //
-        // foreach ($entries as $entry) {
-        //     if ($entry->get('feed_title') == $request->feed) {
-        //         $entry->delete();
-        //     }
-        // }
-
-        // return [
-        //     'success' => true,
-        //     'message' => 'All events deleted successfully'
-        // ];
     }
 
 
