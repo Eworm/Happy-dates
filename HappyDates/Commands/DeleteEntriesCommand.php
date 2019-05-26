@@ -23,7 +23,7 @@ class DeleteEntriesCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Deletes all feed entries';
+    protected $description = 'Deletes all feed entries. Expects a feed name.';
 
     /**
      * Create a new command instance.
