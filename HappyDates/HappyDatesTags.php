@@ -71,41 +71,33 @@ class HappyDatesTags extends Tags
             $startdate = new \DateTime($this->startDate());
             $enddate = new \DateTime($this->endDate());
 
+            $newrule = '';
+
             if (isset($this->context['pw_recurring_ends'])) {
                 $ends = $this->context['pw_recurring_ends'];
             }
             if (isset($this->context['pw_recurring_frequency'])) {
                 $frequency = $this->context['pw_recurring_frequency'];
+                $newrule .= 'FREQ=' . $frequency;
+            }
+            if (isset($this->context['pw_recurring_byday'])) {
+                $byday = $this->context['pw_recurring_byday'];
+                $newrule .= ';BYDAY=' . \implode(',',$byday);
             }
             if (isset($this->context['pw_recurring_count'])) {
                 $count = $this->context['pw_recurring_count'];
+                $newrule .= ';COUNT=' . $count;
             }
             if (isset($this->context['pw_recurring_until'])) {
                 $until = new \DateTime($this->context['pw_recurring_until']);
+                $newrule .= ';UNTIL=' . $until->format('Y-m-d');
             }
             if (isset($this->context['pw_recurring_interval'])) {
                 $interval = $this->context['pw_recurring_interval'];
+                $newrule .= ';INTERVAL=' . $interval;
             }
-
             $transformer = new Transformer\ArrayTransformer();
-
-            if ($ends == 'after') {
-                $rule = (new \Recurr\Rule)
-                    ->setStartDate($startdate)
-                    ->setEndDate($enddate)
-                    ->setTimezone($timezone)
-                    ->setCount($count)
-                    ->setInterval($interval)
-                    ->setFreq($frequency);
-            } else {
-                $rule = (new \Recurr\Rule)
-                    ->setStartDate($startdate)
-                    ->setEndDate($enddate)
-                    ->setTimezone($timezone)
-                    ->setFreq($frequency)
-                    ->setInterval($interval)
-                    ->setUntil($until);
-            }
+            $rule = new \Recurr\Rule($newrule, $startdate, $enddate, $timezone);
 
             $ruledates = $transformer->transform($rule);
             $dates = [];
