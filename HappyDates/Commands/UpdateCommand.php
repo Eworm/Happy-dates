@@ -78,9 +78,9 @@ class UpdateCommand extends Command
                         foreach ($items as $item) {
 
                             if (array_key_exists('title', $item)) {
-                                $event_title = str_limit($item->title, 200);
+                                $event_title = str_limit($item['event']->title, 200);
                             } else {
-                                $event_title = str_limit($item->summary, 200);
+                                $event_title = str_limit($item['event']->summary, 200);
                             }
 
                             $with = [];
@@ -91,8 +91,8 @@ class UpdateCommand extends Command
                             $with['create'] = true;
 
                             // See if there's a sequence
-                            if (\array_key_exists('sequence', $item)) {
-                                $num = $item->sequence;
+                            if (\array_key_exists('sequence', $item['event'])) {
+                                $num = $item['event']->sequence;
                                 $int = (int)$num;
                                 $with['entry']['sequence'] = $int; // Set the sequence
                             } else {
@@ -100,28 +100,28 @@ class UpdateCommand extends Command
                             }
 
                             // Item description
-                            $with['entry'][Str::removeLeft($settings['pw_description'], '@ical:')] = $this->checkKey($settings, $item, 'description', 'description');
+                            $with['entry'][Str::removeLeft($settings['pw_description'], '@ical:')] = $this->checkKey($settings, $item['event'], 'description', 'description');
 
                             // Check for recurrence and add the info
-                            if ($item->recurrence != null) {
+                            if ($item['event']->recurrence != null) {
                                 $with['entry']['pw_recurring'] = true;
-                                if (\array_key_exists('freq', $item->recurrence)) {
-                                    $with['entry']['pw_recurring_frequency'] = $item->recurrence->freq;
+                                if (\array_key_exists('freq', $item['event']->recurrence)) {
+                                    $with['entry']['pw_recurring_frequency'] = $item['event']->recurrence->freq;
                                 }
-                                if (\array_key_exists('interval', $item->recurrence)) {
-                                    $with['entry']['pw_recurring_interval'] = $item->recurrence->interval;
+                                if (\array_key_exists('interval', $item['event']->recurrence)) {
+                                    $with['entry']['pw_recurring_interval'] = $item['event']->recurrence->interval;
                                 }
-                                if (\array_key_exists('count', $item->recurrence)) {
-                                    $with['entry']['pw_recurring_count'] = $item->recurrence->count;
+                                if (\array_key_exists('count', $item['event']->recurrence)) {
+                                    $with['entry']['pw_recurring_count'] = $item['event']->recurrence->count;
                                     $with['entry']['pw_recurring_ends'] = 'after';
                                 }
-                                if (\array_key_exists('until', $item->recurrence)) {
-                                    $with['entry']['pw_recurring_count'] = $item->recurrence->until;
+                                if (\array_key_exists('until', $item['event']->recurrence)) {
+                                    $with['entry']['pw_recurring_count'] = $item['event']->recurrence->until;
                                     $with['entry']['pw_recurring_ends'] = 'on';
                                 }
-                                if (\array_key_exists('byday', $item->recurrence)) {
+                                if (\array_key_exists('byday', $item['event']->recurrence)) {
                                     $byday = [];
-                                    foreach ($item->recurrence->byday as $day) {
+                                    foreach ($item['event']->recurrence->byday as $day) {
                                         $byday[] = $day;
                                     }
                                     $with['entry']['pw_recurring_byday'] = $byday;
@@ -129,22 +129,22 @@ class UpdateCommand extends Command
                             }
 
                             // Location
-                            $with['entry'][Str::removeLeft($settings['pw_location'], '@ical:')] = $this->checkKey($settings, $item, 'location', 'location');
+                            $with['entry'][Str::removeLeft($settings['pw_location'], '@ical:')] = $this->checkKey($settings, $item['event'], 'location', 'location');
 
                             // Status
-                            $with['entry'][Str::removeLeft($settings['pw_status'], '@ical:')] = $this->checkKey($settings, $item, 'status', 'status');
+                            $with['entry'][Str::removeLeft($settings['pw_status'], '@ical:')] = $this->checkKey($settings, $item['event'], 'status', 'status');
 
                             // Created
-                            $with['entry'][Str::removeLeft($settings['pw_created'], '@ical:')] = $this->checkKey($settings, $item, 'created', 'created');
+                            $with['entry'][Str::removeLeft($settings['pw_created'], '@ical:')] = $this->checkKey($settings, $item['event'], 'created', 'created');
 
                             // Updated
-                            $with['entry'][Str::removeLeft($settings['pw_updated'], '@ical:')] = $this->checkKey($settings, $item, 'updated', 'updated');
+                            $with['entry'][Str::removeLeft($settings['pw_updated'], '@ical:')] = $this->checkKey($settings, $item['event'], 'updated', 'updated');
 
                             // Startdate
-                            $with['entry'][Str::removeLeft($settings['pw_start_date'], '@ical:')] = $this->checkKey($settings, $item, 'start_date', 'dateStart');
+                            $with['entry'][Str::removeLeft($settings['pw_start_date'], '@ical:')] = $this->checkKey($settings, $item['event'], 'start_date', 'dateStart');
 
                             // Enddate
-                            $with['entry'][Str::removeLeft($settings['pw_end_date'], '@ical:')] = $this->checkKey($settings, $item, 'end_date', 'dateEnd');
+                            $with['entry'][Str::removeLeft($settings['pw_end_date'], '@ical:')] = $this->checkKey($settings, $item['event'], 'end_date', 'dateEnd');
 
                             // Custom terms
                             if ($settings['enable_taxonomies'] == true) {
@@ -161,7 +161,7 @@ class UpdateCommand extends Command
                                 // Create an entry
                                 $entry_title = slugify($with['entry']['title']);
                                 $entry_collection = $with['collection'];
-                                $entry_uid = $this->clean($item->uid);
+                                $entry_uid = $this->clean($item['event']->uid);
 
                                 // Find a file by id and delete it if there are changes
                                 $file = Entry::find($entry_uid);

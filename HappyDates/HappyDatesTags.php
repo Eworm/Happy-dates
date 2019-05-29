@@ -140,14 +140,13 @@ class HappyDatesTags extends Tags
                 $ical = $ical->cache($this->cache->get(slugify($settings['title'])));
                 $events = $ical->eventsByDate();
 
-                foreach ($events as $date => $events)
+                foreach ($events as $date => $days)
                 {
-                    foreach ($events as $event)
+                    foreach ($days as $event)
                     {
                         $data[] = [
-                            'title' => $event->title(),
-                            'start_date' => $event->dateStart,
-                            'end_date' => $event->dateEnd
+                            'title' => $event['event']->title(),
+                            'start_date' => $event['date']
                         ];
                     }
                 }
