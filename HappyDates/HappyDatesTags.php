@@ -175,9 +175,9 @@ class HappyDatesTags extends Tags
      */
     private static function dateSort($a, $b)
     {
-        if ($a["start_date"] == $b["start_date"]) {
+        if ($a['start_date'] == $b['start_date']) {
             return 0;
         }
-        return ($a["start_date"] < $b["start_date"]) ? -1 : 1;
+        return ($a['start_date'] < $b['start_date']) ? -1 : 1;
     }
 }
