@@ -139,7 +139,6 @@ class HappyDatesTags extends Tags
                 $ical = new iCal();
                 $ical = $ical->cache($this->cache->get(slugify($settings['title'])));
                 $events = $ical->eventsByDate();
-                // return $this->parseLoop($events);
 
                 foreach ($events as $date => $events)
                 {
@@ -147,13 +146,15 @@ class HappyDatesTags extends Tags
                     {
                         $data[] = [
                             'title' => $event->title(),
-                            'startdate' => $event->dateStart,
-                            'enddate' => $event->dateEnd
+                            'start_date' => $event->dateStart,
+                            'end_date' => $event->dateEnd
                         ];
                     }
                 }
             }
         }
+
+        usort($data, array($this, 'dateSort'));
         return $this->parseLoop($data);
     }
 
@@ -165,5 +166,18 @@ class HappyDatesTags extends Tags
     private function dtCarbon($date)
     {
         return Carbon::instance($date);
+    }
+
+    /**
+     * Transform a datetime object to Carbon
+     *
+     * @return string
+     */
+    private static function dateSort($a, $b)
+    {
+        if ($a["start_date"] == $b["start_date"]) {
+            return 0;
+        }
+        return ($a["start_date"] < $b["start_date"]) ? -1 : 1;
     }
 }
