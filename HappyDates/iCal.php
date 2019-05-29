@@ -1,6 +1,7 @@
 <?php
 
 namespace Statamic\Addons\HappyDates;
+
 use Statamic\Extend\Extensible;
 use Carbon\Carbon;
 
@@ -43,13 +44,13 @@ class iCal
         if ($content) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $content);
-            curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+            curl_setopt($ch, CURLOPT_AUTOREFERER, true);
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_URL, $content);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             $data = curl_exec($ch);
-            curl_close ($ch);
+            curl_close($ch);
             $this->cache->put($title, $data);
             return $this->parse($data);
         }
@@ -161,7 +162,6 @@ class iCal
         return $this;
     }
 }
-
 
 
 class iCal_Event
@@ -550,7 +550,6 @@ class iCal_Event
 }
 
 
-
 class iCal_Occurrence
 {
 
@@ -575,7 +574,6 @@ class iCal_Occurrence
     {
         return (string) $this->_timestamp;
     }
-
 
     public function format($format = 'U')
     {
