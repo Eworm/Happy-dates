@@ -2,6 +2,7 @@
 
 namespace Statamic\Addons\HappyDates;
 
+use Statamic\Addons\HappyDates\iCal;
 use Recurr\Rule;
 use Recurr\Transformer;
 use Spatie\CalendarLinks\Link;
@@ -118,6 +119,43 @@ class HappyDatesTags extends Tags
         }
     }
 
+    /**
+     * The {{ happy_dates:calendar }} tag
+     *
+     * @return string
+     */
+    public function calendar()
+    {
+        $events_storage  = Storage::files('/site/storage/addons/HappyDates');
+        $data = [];
+
+        foreach ($events_storage as $event) {
+            $st_event = str_replace('site/storage/addons/HappyDates/', '', $event);
+            $ignore = array( 'cgi-bin', '.', '..','._' );
+
+            if (!in_array($st_event, $ignore) and substr($st_event, 0, 1) != '.') {
+                $settings = $this->storage->getYaml($st_event);
+
+                $ical = new iCal();
+                $ical = $ical->cache($this->cache->get(slugify($settings['title'])));
+                $events = $ical->eventsByDate();
+                // return $this->parseLoop($events);
+
+                foreach ($events as $date => $events)
+                {
+                    foreach ($events as $event)
+                    {
+                        $data[] = [
+                            'title' => $event->title(),
+                            'startdate' => $event->dateStart,
+                            'enddate' => $event->dateEnd
+                        ];
+                    }
+                }
+            }
+        }
+        return $this->parseLoop($data);
+    }
 
     /**
      * Transform a datetime object to Carbon

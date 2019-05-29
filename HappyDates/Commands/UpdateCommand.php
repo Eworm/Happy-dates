@@ -70,7 +70,7 @@ class UpdateCommand extends Command
                 }
 
                 if ($enabled == true) {
-                    $ical = new iCal($settings_url);
+                    $ical = new iCal($settings_url, slugify($settings_title));
                     $events = $ical->eventsByDate();
                     $timezone = $ical->timezone;
 

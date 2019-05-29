@@ -1,10 +1,17 @@
 <?php
 
 namespace Statamic\Addons\HappyDates;
+use Statamic\Extend\Extensible;
 use Carbon\Carbon;
 
 class iCal
 {
+
+    /**
+     * Provides access to addon helper methods
+     */
+    use Extensible;
+
     /**
      * @var string
      */
@@ -31,7 +38,7 @@ class iCal
     protected $_eventsByDate;
 
 
-    public function __construct($content = null)
+    public function __construct($content = null, $title = null)
     {
         if ($content) {
             $ch = curl_init();
@@ -43,10 +50,15 @@ class iCal
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
             $data = curl_exec($ch);
             curl_close ($ch);
+            $this->cache->put($title, $data);
             return $this->parse($data);
         }
     }
 
+    public function cache($data)
+    {
+        return $this->parse($data);
+    }
 
     public function timezone()
     {
@@ -347,7 +359,7 @@ class iCal_Event
 
             // Avoid infinite recurrences
             if (! isset($rules->until) && ! isset($rules->count)) {
-                $rules->count = 500;
+                $rules->count = 100;
             }
 
             $this->recurrence = $rules;
