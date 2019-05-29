@@ -581,9 +581,4 @@ class iCal_Occurrence
     {
         return date($format, $this->_event->duration());
     }
-
-    public function timestamp()
-    {
-        return $this->_timestamp;
-    }
 }

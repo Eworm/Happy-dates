@@ -146,6 +146,10 @@ class HappyDatesTags extends Tags
                     {
                         $data[] = [
                             'title' => $event['event']->title(),
+                            'status' => $event['event']->status,
+                            'location' => $event['event']->location,
+                            'created' => $event['event']->created,
+                            'updated' => $event['event']->updated,
                             'start_date' => $event['date']
                         ];
                     }
