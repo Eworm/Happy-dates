@@ -44,9 +44,9 @@ class UpdateCommand extends Command
      */
     public function handle()
     {
-        $events_storage  = Storage::files('/site/storage/addons/HappyDates');
+        $feeds_storage  = Storage::files('/site/storage/addons/HappyDates');
 
-        foreach ($events_storage as $event) {
+        foreach ($feeds_storage as $event) {
             $st_event = str_replace('site/storage/addons/HappyDates/', '', $event);
             $ignore = array( 'cgi-bin', '.', '..','._' );
 

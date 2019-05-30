@@ -67,7 +67,8 @@ class HappyDatesTags extends Tags
      */
     public function recurring()
     {
-        if ($this->context['pw_recurring'] == true) {
+        if ($this->context['pw_recurring'] == true)
+        {
             $timezone  = $this->context['settings']['system']['timezone'];
             $startdate = new \DateTime($this->startDate());
             $enddate = new \DateTime($this->endDate());
@@ -103,7 +104,8 @@ class HappyDatesTags extends Tags
             $ruledates = $transformer->transform($rule);
             $dates = [];
 
-            foreach ($ruledates as $date) {
+            foreach ($ruledates as $date)
+            {
                 $startdate = $date->getStart();
                 $carbon_start = $this->dtCarbon($startdate);
                 $enddate = $date->getEnd();
@@ -126,39 +128,68 @@ class HappyDatesTags extends Tags
      */
     public function calendar()
     {
-        $events_storage  = Storage::files('/site/storage/addons/HappyDates');
+        $feed_storage = $this->getParam('feed');
+        $feeds_storage = Storage::files('/site/storage/addons/HappyDates');
         $data = [];
 
-        foreach ($events_storage as $event) {
-            $st_event = str_replace('site/storage/addons/HappyDates/', '', $event);
-            $ignore = array( 'cgi-bin', '.', '..','._' );
-
-            if (!in_array($st_event, $ignore) and substr($st_event, 0, 1) != '.') {
-                $settings = $this->storage->getYaml($st_event);
-
-                $ical = new iCal();
-                $ical = $ical->cache($this->cache->get(slugify($settings['title'])));
-                $events = $ical->eventsByDate();
-
-                foreach ($events as $date => $days)
+        if ($feed_storage)
+        {
+            $data = $this->getEvents($feed_storage, $data);
+        }
+        else
+        {
+            foreach ($feeds_storage as $feed)
+            {
+                $st_feed = str_replace('site/storage/addons/HappyDates/', '', $feed);
+                $ignore = array( 'cgi-bin', '.', '..','._' );
+                if (!in_array($st_feed, $ignore) and substr($st_feed, 0, 1) != '.')
                 {
-                    foreach ($days as $event)
-                    {
-                        $data[] = [
-                            'title' => $event['event']->title(),
-                            'status' => $event['event']->status,
-                            'location' => $event['event']->location,
-                            'created' => $event['event']->created,
-                            'updated' => $event['event']->updated,
-                            'start_date' => $event['date']
-                        ];
-                    }
+                    $data = $this->getEvents($st_feed, $data);
                 }
             }
         }
 
         usort($data, array($this, 'dateSort'));
         return $this->parseLoop($data);
+    }
+
+    /**
+     * Get all events
+     *
+     * @return array
+     */
+    private function getEvents($feed, $data)
+    {
+        $settings = $this->getFromStorage($feed);
+        $ical = new iCal();
+        $ical = $this->getFromCache($ical, $settings['title']);
+        $events = $ical->eventsByDate();
+
+        foreach ($events as $date => $days)
+        {
+            foreach ($days as $event)
+            {
+                $data[] = $this->addEventData($event);
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Add event data
+     *
+     * @return array
+     */
+    private function addEventData($event)
+    {
+        return [
+            'title' => $event['event']->title(),
+            'status' => $event['event']->status,
+            'location' => $event['event']->location,
+            'created' => $event['event']->created,
+            'updated' => $event['event']->updated,
+            'start_date' => $event['date']
+        ];
     }
 
     /**
@@ -178,9 +209,30 @@ class HappyDatesTags extends Tags
      */
     private static function dateSort($a, $b)
     {
-        if ($a['start_date'] == $b['start_date']) {
+        if ($a['start_date'] == $b['start_date'])
+        {
             return 0;
         }
         return ($a['start_date'] < $b['start_date']) ? -1 : 1;
+    }
+
+    /**
+     * Get a file from storage
+     *
+     * @return yaml
+     */
+    private function getFromStorage($file)
+    {
+        return $this->storage->getYaml($file);
+    }
+
+    /**
+     * Get a file from cache
+     *
+     * @return yaml
+     */
+    private function getFromCache($ical, $title)
+    {
+        return $ical->cache($this->cache->get(slugify($title)));
     }
 }
