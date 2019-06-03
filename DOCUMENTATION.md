@@ -18,7 +18,7 @@ Some settings are set to as a standard value:
 * The event info is saved to preset fieldnames. You can choose to change them.
 
 ### Happy Dates ❤ Prestige Worldwide
-Using the field presets means the info will be saved _the same way_ [Prestige Worldwide](https://statamic.com/marketplace/addons/prestige-worldwide) does. Happy Dates works without HP, but installing HP too means you'll be able to see event info and add manual events.
+Using the field presets means the info will be saved _the same way_ [Prestige Worldwide](https://statamic.com/marketplace/addons/prestige-worldwide) does. Happy Dates works without HD, but installing HD too means you'll be able to see event info and add manual events.
 
 ### About the from field/custom/disabled fieldtype
 You'll see a lot of fieldtypes with a select input next to a text/suggest fieldtype. You can use these fieldtypes to map content from the feed events to your statamic entries. Since there's no way to check the feed for available content you'll just have to check the feed yourself to see which info you can work with.
@@ -36,7 +36,7 @@ Choose what to do with the event info.
 You can enable and add custom terms to every new entry from a feed.
 
 ## Updates <a id="updates"></a>
-Happy Dates uses the `php please happydates:refresh` task to check feeds for new events. You'll have to add the cron to your server if you want to automate this task. [More info on how to is here](https://docs.statamic.com/addons/classes/tasks).
+Happy Dates uses the `pHD please happydates:refresh` task to check feeds for new events. You'll have to add the cron to your server if you want to automate this task. [More info on how to is here](https://docs.statamic.com/addons/classes/tasks).
 
 You can also call the task manually from the command line (or press the 'Refresh all' button in the cp). Happy Dates will overwrite existing entries if the event in the feed is changed (it checks for a higher sequence), so beware of changing syndicated entries. The start date and title of an event are used to generate a filename.
 
@@ -67,28 +67,28 @@ Happy Dates fires the `HappyDates:beforecreate` event right before creating an e
 Instead of filters in the control panel you can use this to change the collection, content or disable creating the entry by setting `create: false`;
 
 ## Showing a list of events <a id="list"></a>
-Use the following tags for a list of events. HP adds custom filters to a Statamic collection, the rest is pure Statamic. [More info about collections is here](https://docs.statamic.com/tags/collection).
+Use the following tags for a list of events. HD adds custom filters to a Statamic collection, the rest is pure Statamic. [More info about collections is here](https://docs.statamic.com/tags/collection).
 
 ### Get all future events <a id="future"></a>
-In this example I'm using the Redwood partial 'block', but you'll probably want to change that to your own partial. Remove `paginate="true" limit="10" as="hp_events"`, `{{ hp_events }}`, and `{{ partial:pagination }}` if you don't care about pagination. Change `collection:blog` to the collection you use for your events.
+In this example I'm using the Redwood partial 'block', but you'll probably want to change that to your own partial. Remove `paginate="true" limit="10" as="HD_events"`, `{{ HD_events }}`, and `{{ partial:pagination }}` if you don't care about pagination. Change `collection:blog` to the collection you use for your events.
 
-    {{ collection:blog filter="happy_dates" remove="past" paginate="true" limit="10" as="hp_events" }}
-        {{ hp_events }}
+    {{ collection:blog filter="happy_dates" remove="past" paginate="true" limit="10" as="HD_events" }}
+        {{ HD_events }}
             {{ partial:block }}
             {{ partial:pagination }}
-        {{ /hp_events }}
+        {{ /HD_events }}
     {{ /collection:blog }}
 
 ### Get all past events <a id="past"></a>
-    {{ collection:blog filter="happy_dates" remove="future" paginate="true" limit="10" as="hp_events" }}
-        {{ hp_events }}
+    {{ collection:blog filter="happy_dates" remove="future" paginate="true" limit="10" as="HD_events" }}
+        {{ HD_events }}
             {{ partial:block }}
             {{ partial:pagination }}
-        {{ /hp_events }}
+        {{ /HD_events }}
     {{ /collection:blog }}
 
 ## Detail page info & tags <a id="detail"></a>
-The idea of HP is to give you the freedom to build your event page the way you want to. You can use the following variables and tags:
+The idea of HD is to give you the freedom to build your event page the way you want to. You can use the following variables and tags:
 
 ### Variables
 * Start date: `{{ pw_start_date }}`
@@ -115,10 +115,10 @@ The idea of HP is to give you the freedom to build your event page the way you w
         </ul>
     {{ /if }}
 
-If you install [Prestige Worlwide](https://statamic.com/marketplace/addons/prestige-worldwide) too you can use the [PW tags](https://statamic.com/marketplace/addons/prestige-worldwide/docs#tags) to display HP info!
+If you install [Prestige Worlwide](https://statamic.com/marketplace/addons/prestige-worldwide) too you can use the [PW tags](https://statamic.com/marketplace/addons/prestige-worldwide/docs#tags) to display HD info!
 
 ### One calendar to rule them all
-HP downloads all ical files and saves them in the Statamic cache when you hit refresh all. You can display a calendar of all events with this tag.
+HD downloads all ical files and saves them in the Statamic cache when you hit refresh all. You can display a calendar of all events with this tag.
 <table>
     <tbody>
         <tr>
@@ -163,4 +163,4 @@ The following variables are available: title, status, location, created, updated
         {{ /happy_dates:calendar }}
     </ul>
 
-If you install [Prestige Worlwide](https://statamic.com/marketplace/addons/prestige-worldwide) too you can use the [PW tags](https://statamic.com/marketplace/addons/prestige-worldwide/docs#tags) to display HP info!
+If you install [Prestige Worlwide](https://statamic.com/marketplace/addons/prestige-worldwide) too you can use the [PW tags](https://statamic.com/marketplace/addons/prestige-worldwide/docs#tags) to display HD info!
