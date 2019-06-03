@@ -128,6 +128,7 @@ HP downloads all ical files and saves them in the Statamic cache when you hit re
         </tr>
     </tbody>
 </table>
+The following variables are available: title, status, location, created, updated, duration and startdate.
 
 #### Parameters
 <table>
@@ -153,7 +154,7 @@ HP downloads all ical files and saves them in the Statamic cache when you hit re
     <ul>
         {{ happy_dates:calendar start=now end="+4 weeks" }}
         <li>
-            <strong>{{ title }}</strong>
+            <strong>{{ title }} ({{ duration divide="60" }} minutes)</strong>
             <br>
             {{ start_date }} - {{ status }}
             <br>

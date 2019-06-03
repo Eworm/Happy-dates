@@ -203,6 +203,7 @@ class HappyDatesTags extends Tags
             'location' => $event['event']->location,
             'created' => $event['event']->created,
             'updated' => $event['event']->updated,
+            'duration' => $event['event']->duration(),
             'start_date' => $event['date']
         ];
     }
