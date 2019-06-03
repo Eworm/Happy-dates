@@ -1,6 +1,6 @@
 name: 'Happy Dates'
 version: '1.0'
-description: 'Imports ical feeds'
+description: 'Imports ical feeds and saves events as entries'
 developer: 'Wout Mager'
 developer_url: 'https://woutmager.nl'
 commercial: true
