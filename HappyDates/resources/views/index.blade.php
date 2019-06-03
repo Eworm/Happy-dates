@@ -63,7 +63,7 @@
                                     @endif
                                 </td>
 
-                                <td class="cell-updated">
+                                <td class="cell-short">
                                     <code>{{ $ical->name }}</code>
                                 </td>
 
