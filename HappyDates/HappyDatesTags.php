@@ -19,6 +19,7 @@ use Statamic\API\File;
 use Statamic\API\Yaml;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+// use Statamic\core\View\BaseModifiers;
 
 class HappyDatesTags extends Tags
 {
@@ -128,13 +129,19 @@ class HappyDatesTags extends Tags
      */
     public function calendar()
     {
+        $feed_start = $this->getParam('start');
+        $feed_end = $this->getParam('end');
+        if (isset($feed_end))
+        {
+            $feed_end = carbon($feed_start)->modify($feed_end)->format('Y-m-d H:i');
+        }
         $feed_storage = $this->getParam('feed');
         $feeds_storage = Storage::files('/site/storage/addons/HappyDates');
         $data = [];
 
-        if ($feed_storage)
+        if (isset($feed_storage))
         {
-            $data = $this->getEvents($feed_storage, $data);
+            $data = $this->getEvents($feed_storage, $data, $feed_start, $feed_end);
         }
         else
         {
@@ -144,7 +151,7 @@ class HappyDatesTags extends Tags
                 $ignore = array( 'cgi-bin', '.', '..','._' );
                 if (!in_array($st_feed, $ignore) and substr($st_feed, 0, 1) != '.')
                 {
-                    $data = $this->getEvents($st_feed, $data);
+                    $data = $this->getEvents($st_feed, $data, $feed_start, $feed_end);
                 }
             }
         }
@@ -158,12 +165,20 @@ class HappyDatesTags extends Tags
      *
      * @return array
      */
-    private function getEvents($feed, $data)
+    private function getEvents($feed, $data, $start, $end)
     {
         $settings = $this->getFromStorage($feed);
         $ical = new iCal();
         $ical = $this->getFromCache($ical, $settings['title']);
-        $events = $ical->eventsByDate();
+
+        if (isset($start) && isset($end))
+        {
+            $events = $ical->eventsByDateBetween($start, $end);
+        }
+        else
+        {
+            $events = $ical->eventsByDate();
+        }
 
         foreach ($events as $date => $days)
         {

@@ -7,6 +7,7 @@ Happy Dates is an iCal syndicator for Statamic. It populates collections with ev
 * Chose where to save content from a feed
 * Add custom terms to each entry
 * Listen to the `HappyDates:beforecreate` event to change the collection, the contents of the entry, or even disable creating the entry!
+* Use `happy_dates:calendar` to show a calendar of all feed events.
 
 _Features requests? Found a bug? [Let me know!](mailto:wout@woutmager.nl)_
 

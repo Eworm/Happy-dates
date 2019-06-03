@@ -94,7 +94,7 @@ The idea of HP is to give you the freedom to build your event page the way you w
 * Start date: `{{ pw_start_date }}`
 * End date: `{{ pw_end_date }}`
 
-### Recurring dates <a id="recurring"></a>
+### Recurring dates
 <table>
     <tbody>
         <tr>
@@ -114,5 +114,52 @@ The idea of HP is to give you the freedom to build your event page the way you w
             {{ /happy_dates:recurring }}
         </ul>
     {{ /if }}
+
+If you install [Prestige Worlwide](https://statamic.com/marketplace/addons/prestige-worldwide) too you can use the [PW tags](https://statamic.com/marketplace/addons/prestige-worldwide/docs#tags) to display HP info!
+
+### One calendar to rule them all
+HP downloads all ical files and saves them in the Statamic cache when you hit refresh all. You can display a calendar of all events with this tag.
+<table>
+    <tbody>
+        <tr>
+            <td>Get</td>
+            <td>`{{ happy_dates:calendar }}{{ /happy_dates:calendar }}`</td>
+            <td>Returns an array</td>
+        </tr>
+    </tbody>
+</table>
+
+#### Parameters
+<table>
+<tbody>
+<tr>
+<td>feed</td>
+<td>The feed name (slugified)</td>
+</tr>
+<tr>
+<td>start</td>
+<td>A date or just `now`</td>
+</tr>
+<tr>
+<td>end</td>
+<td>All options available as a [date modifier](https://docs.statamic.com/modifiers/modify_date)</td>
+</tr>
+</tbody>
+</table>
+
+
+**Example**   
+
+    <ul>
+        {{ happy_dates:calendar start=now end="+4 weeks" }}
+        <li>
+            <strong>{{ title }}</strong>
+            <br>
+            {{ start_date }} - {{ status }}
+            <br>
+            {{ location }}
+        </li>
+        {{ /happy_dates:calendar }}
+    </ul>
 
 If you install [Prestige Worlwide](https://statamic.com/marketplace/addons/prestige-worldwide) too you can use the [PW tags](https://statamic.com/marketplace/addons/prestige-worldwide/docs#tags) to display HP info!

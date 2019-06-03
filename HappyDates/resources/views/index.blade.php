@@ -25,6 +25,7 @@
                             <th class="column-slug">Collection</th>
                             <th class="column-date">Last Update</th>
                             <th class="column-enabled">Status</th>
+                            <th class="column-short">Short</th>
                             <th class="column-actions"></th>
                         </tr>
                     </thead>
@@ -60,6 +61,10 @@
                                     @else
                                         <span class="red">Disabled</span>
                                     @endif
+                                </td>
+
+                                <td class="cell-updated">
+                                    <code>{{ $ical->name }}</code>
                                 </td>
 
                                 <td class="column-actions">
