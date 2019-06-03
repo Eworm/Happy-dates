@@ -12,4 +12,4 @@ Happy Dates is an iCal syndicator for Statamic. It populates collections with ev
 _Features requests? Found a bug? [Let me know!](mailto:wout@woutmager.nl)_
 
 ### Happy Dates ❤ [Prestige Worldwide](https://statamic.com/marketplace/addons/prestige-worldwide)
-Find out why in [the docs](https://statamic.com/marketplace/addons/happy-dates).
+Find out why in [the docs](https://statamic.com/marketplace/addons/happy-dates/v2/docs).
